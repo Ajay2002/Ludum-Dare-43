@@ -14,6 +14,7 @@ public class CharacterMovement : MonoBehaviour
     public Rigidbody rBody;
     public Animator animator;
     public Camera cam;
+    public Transform aimSphere;
     public Transform model;
     public Transform gun;
     public bool inputLock = false;
@@ -35,69 +36,123 @@ public class CharacterMovement : MonoBehaviour
     public Transform gun3;
     public Color helmentColor3;
 
+    [Header("Stage 4")]
+    public Transform gun4;
+    public Color helmetColor4;
+
 
     public void SetType (int index)
     {
+        int cost = 0;
         if (index == 0)
         {
-            recorder.unitType = UnitType.Stage1;
+            cost = 0;
         }
-        else if ( index == 1)
+        else if (index == 1)
         {
-            recorder.unitType = UnitType.Stage2;
+            cost = 15;
         }
         else if (index == 2)
         {
-            recorder.unitType = UnitType.Stage3;
+            cost = 30;
         }
-
-        if (recorder.unitType == UnitType.Stage1)
+        else if (index == 3)
         {
-            gun2.gameObject.SetActive(false);
-            gun3.gameObject.SetActive(false);
-            gun1.gameObject.SetActive(true);
-            helment.materials[2].color = helmetColor;
-
-            shootingManager.gun = gun1;
-            gun = gun1;
-            shootingManager.type = ShootingManager.GunType.AK47;
-
-            Health = 100;
-            speed = 0.01f;
-
+            cost = 20;
         }
-        else if (recorder.unitType == UnitType.Stage2)
+
+        if (cost > GameManager.points)
         {
-            gun2.gameObject.SetActive(true);
-            gun3.gameObject.SetActive(false);
-            gun1.gameObject.SetActive(false);
-            helment.materials[2].color = helmentColor2;
-
-            shootingManager.gun = gun2;
-            gun = gun2;
-            shootingManager.type = ShootingManager.GunType.SHOTGUN;
-
-            Health = 200;
-            speed = 0.015f;
+            GameObject.FindObjectOfType<UIManager>().InSufficientFunds();
         }
-        else if (recorder.unitType == UnitType.Stage3)
+        else
         {
-            gun2.gameObject.SetActive(false);
-            gun3.gameObject.SetActive(true);
-            gun1.gameObject.SetActive(false);
-            helment.materials[2].color = helmentColor3;
+            if (index == 0)
+            {
+                recorder.unitType = UnitType.Stage1;
+            }
+            else if (index == 1)
+            {
+                recorder.unitType = UnitType.Stage2;
+            }
+            else if (index == 2)
+            {
+                recorder.unitType = UnitType.Stage3;
+            }
+            else if (index == 3)
+            {
+                recorder.unitType = UnitType.DoorHandler;
+            }
 
-            shootingManager.type = ShootingManager.GunType.SEMI;
-            gun = gun3;
-            shootingManager.gun = gun3;
+            if (recorder.unitType == UnitType.Stage1)
+            {
+                gun2.gameObject.SetActive(false);
+                gun3.gameObject.SetActive(false);
+                gun1.gameObject.SetActive(true);
+                gun4.gameObject.SetActive(false);
+                helment.materials[2].color = helmetColor;
 
-            Health = 100;
-            speed = 0.02f;
+                shootingManager.gun = gun1;
+                gun = gun1;
+                shootingManager.type = ShootingManager.GunType.AK47;
+
+                Health = 100;
+                speed = 0.01f;
+
+            }
+            else if (recorder.unitType == UnitType.Stage2)
+            {
+                gun2.gameObject.SetActive(true);
+                gun3.gameObject.SetActive(false);
+                gun1.gameObject.SetActive(false);
+                gun4.gameObject.SetActive(false);
+                helment.materials[2].color = helmentColor2;
+
+                shootingManager.gun = gun2;
+                gun = gun2;
+                shootingManager.type = ShootingManager.GunType.SHOTGUN;
+
+                Health = 200;
+                speed = 0.015f;
+            }
+            else if (recorder.unitType == UnitType.Stage3)
+            {
+                gun2.gameObject.SetActive(false);
+                gun3.gameObject.SetActive(true);
+                gun1.gameObject.SetActive(false);
+                gun4.gameObject.SetActive(false);
+                helment.materials[2].color = helmentColor3;
+
+                shootingManager.type = ShootingManager.GunType.SEMI;
+                gun = gun3;
+                shootingManager.gun = gun3;
+
+                Health = 100;
+                speed = 0.02f;
+            }
+
+            else if (recorder.unitType == UnitType.DoorHandler)
+            {
+                gun2.gameObject.SetActive(false);
+                gun3.gameObject.SetActive(false);
+                gun1.gameObject.SetActive(false);
+                gun4.gameObject.SetActive(true);
+
+                helment.materials[2].color = helmetColor4;
+
+                shootingManager.type = ShootingManager.GunType.NONE;
+                gun = gun4;
+                shootingManager.gun = gun1;
+
+                Health = 150;
+                speed = 0.005f;
+
+            }
+
+            GameObject.FindObjectOfType<UIManager>().HideSelectionScreen();
+            Time.timeScale = 1f;
+            GameObject.FindObjectOfType<GameManager>().RespawnAll();
         }
-
-        GameObject.FindObjectOfType<UIManager>().HideSelectionScreen();
-        Time.timeScale = 1f;
-        GameObject.FindObjectOfType<GameManager>().RespawnAll();
 
     }
 
@@ -111,6 +166,7 @@ public class CharacterMovement : MonoBehaviour
         {
             gun2.gameObject.SetActive(false);
             gun3.gameObject.SetActive(false);
+            gun4.gameObject.SetActive(false);
             gun1.gameObject.SetActive(true);
             helment.materials[2].color = helmetColor;
 
@@ -118,7 +174,7 @@ public class CharacterMovement : MonoBehaviour
             gun = gun1;
             shootingManager.gun = gun1;
 
-            Health = 100;
+            Health = 150;
             speed = 0.01f;
 
         }
@@ -127,6 +183,7 @@ public class CharacterMovement : MonoBehaviour
             gun2.gameObject.SetActive(true);
             gun3.gameObject.SetActive(false);
             gun1.gameObject.SetActive(false);
+            gun4.gameObject.SetActive(false);
             helment.materials[2].color = helmentColor2;
             Health = 200;
             speed = 0.015f;
@@ -140,6 +197,7 @@ public class CharacterMovement : MonoBehaviour
         {
             gun2.gameObject.SetActive(false);
             gun3.gameObject.SetActive(true);
+            gun4.gameObject.SetActive(false);
             gun1.gameObject.SetActive(false);
             helment.materials[2].color = helmentColor3;
 
@@ -149,6 +207,23 @@ public class CharacterMovement : MonoBehaviour
 
             Health = 300;
             speed = 0.02f;
+        }
+        else if (recorder.unitType == UnitType.DoorHandler)
+        {
+            gun2.gameObject.SetActive(false);
+            gun3.gameObject.SetActive(false);
+            gun1.gameObject.SetActive(false);
+            gun4.gameObject.SetActive(true);
+
+            helment.materials[2].color = helmetColor4;
+
+            shootingManager.type = ShootingManager.GunType.NONE;
+            gun = gun4;
+            shootingManager.gun = gun1;
+
+            Health = 300;
+            speed = 0.005f;
+
         }
 
         if (isMainCharacter)
@@ -254,7 +329,7 @@ public class CharacterMovement : MonoBehaviour
 
       
         
-        if (input.magnitude > 0.1f) {
+        if (input.magnitude > 0f) {
             animator.SetBool("walking",true);
         }
         else {
@@ -279,7 +354,7 @@ public class CharacterMovement : MonoBehaviour
             
         Ray ray = new Ray(model.position+retInput*0.005f,-model.up);
         RaycastHit hit;
-        Debug.DrawLine(ray.origin,ray.origin+ray.direction,Color.red,0.2f);
+      //  Debug.DrawLine(ray.origin,ray.origin+ray.direction,Color.red,0.2f);
         if (Physics.SphereCast(ray,0.4f,out hit)) {
            // model.up = Vector3.Lerp(model.up,hit.normal,0.22f);
             model.position = Vector3.Lerp(model.position,new Vector3(model.position.x, hit.point.y+playerHeight, model.position.z),0.94f);
@@ -299,7 +374,7 @@ public class CharacterMovement : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit)) {
             Vector3 hP = hit.point;
-           
+            aimSphere.position = hP;
             hP.y = model.position.y;
             model.LookAt(hP);
 

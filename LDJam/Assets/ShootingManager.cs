@@ -10,7 +10,7 @@ public class ShootingManager : MonoBehaviour
 
     public bool inputLocked = false;
     public enum GunType {
-        AK47,RPG,SHOTGUN,SEMI
+        AK47,RPG,SHOTGUN,SEMI,NONE
     }
     public GunType type;
     private void Update() {
@@ -58,12 +58,16 @@ public class ShootingManager : MonoBehaviour
         }
         if (type == GunType.SHOTGUN)
         {
-                Transform t = (Transform)Transform.Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
-                Transform t1 = (Transform)Transform.Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
-                Transform t2 = (Transform)Transform.Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
-                t.GetComponent<BulletMovement>().SetOff(10, bulletSpawn.forward, 10);
-                t1.GetComponent<BulletMovement>().SetOff(10, (bulletSpawn.forward + bulletSpawn.right).normalized, 10);
-                t2.GetComponent<BulletMovement>().SetOff(10, (bulletSpawn.forward - bulletSpawn.right).normalized, 10);
+          
+            Transform t = (Transform)Transform.Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
+          //  print(t.name + " "+ t.position);
+          //  print(t.name + " "+ t.position);
+          //  print(t.name + " "+ t.position);
+            Transform t1 = (Transform)Transform.Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
+            Transform t2 = (Transform)Transform.Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
+            t.GetComponent<BulletMovement>().SetOff(10, bulletSpawn.forward, 10);
+            t1.GetComponent<BulletMovement>().SetOff(10, (bulletSpawn.forward + bulletSpawn.right).normalized, 10);
+            t2.GetComponent<BulletMovement>().SetOff(10, (bulletSpawn.forward - bulletSpawn.right).normalized, 10);
         }
         if (type == GunType.SEMI)
         {

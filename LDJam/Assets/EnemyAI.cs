@@ -11,12 +11,12 @@ public class EnemyAI : MonoBehaviour
     
     public int pointsAward = 1;
     
-    float timer = 0f;
-    float coolDownRate = 2f;
-    int afterBullets = 20;
+    public float timer = 0f;
+    public float coolDownRate = 2f;
+    public int afterBullets = 20;
 
-    int bulletsShot = 0;
-    float coolTime = 0f;
+    public int bulletsShot = 0;
+    public float coolTime = 0f;
 
     public void Injure(float damage) {
         Health -= damage;
@@ -62,6 +62,27 @@ public class EnemyAI : MonoBehaviour
                             aimTarg = null;
                             return;
                         }
+                    }
+
+                    Ray ray = new Ray(shooting.bulletSpawn.position, aimTarg.position - shooting.bulletSpawn.position);
+                    RaycastHit hit;
+                   // Debug.DrawRay(ray.origin, ray.direction, Color.red, 0.2f);
+                    if (Physics.Raycast(ray, out hit))
+                    {
+                     //   print(hit.transform.name + "vs" + aimTarg.name);
+                        if (hit.transform != aimTarg && hit.transform.tag != "Player")
+                        {
+                            aiming = false;
+                            aimTarg = null;
+                            return;
+                        }
+
+                    }
+                    else
+                    {
+                        aiming = false;
+                        aimTarg = null;
+                        return;
                     }
                     
                 }

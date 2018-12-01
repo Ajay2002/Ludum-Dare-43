@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - DoorBreaker
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - FOVCheck
   - PlayerBullet
   - Enemy
-  - 
+  - DoorBreak
   - 
   - 
   - 

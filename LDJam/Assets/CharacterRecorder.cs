@@ -57,12 +57,12 @@ public class CharacterRecorder : MonoBehaviour
     float gAngle;
 
     public void Playing() {
-        if (character.Health > 0)  {
-        InputStroke s = null;
-        strokeDict.TryGetValue(timer,out s);
-
-        if (s!=null) {
-            waitFor = s;
+        if (character.Health > 0 && strokes.Count > 0)  {
+       // InputStroke s = null;
+        //strokeDict.TryGetValue(timer,out s);
+        
+        if (timer==waitFor.AtTime || Mathf.Approximately(timer,waitFor.AtTime)) {
+            //waitFor = s;
 
             if (waitFor.EVENTVERT == "WDown") {
                 W = true;
@@ -103,6 +103,13 @@ public class CharacterRecorder : MonoBehaviour
 
             mPos = waitFor.eulerAngle;
             gAngle = waitFor.gunAngle;
+
+            if (pos + 1 < strokes.Count)
+            {
+                pos += 1;
+                waitFor = strokes[pos];
+            }
+
         }
 
         character.InputStroke(W,A,S,D,C,mPos,gAngle);
@@ -187,13 +194,15 @@ public class CharacterRecorder : MonoBehaviour
             }
             else {
                 if (eventRequired) {
-                    strokeDict.Add(timer,s);
+                  //  strokeDict.Add(timer,s);
+                    strokes.Add(s);
                 }
             }
         }
         else  {
             if (eventRequired) {
-                strokeDict.Add(timer,s);
+             //   strokeDict.Add(timer,s);
+                strokes.Add(s);
             }
         }
 
@@ -211,6 +220,7 @@ public class CharacterRecorder : MonoBehaviour
         current = null;
         pos = 0;
         waitFor = null;
+        
         strokes.Clear();
 
         recordingMode = true;
@@ -224,6 +234,10 @@ public class CharacterRecorder : MonoBehaviour
         shooting.inputLocked = true;
         recordingMode = false;
         playingMode = false;
+
+        if (strokes.Count > 0)
+        waitFor = strokes[pos];
+
         character.inputLock = true;
          timer = 0f;transform.position = recordingStart;
          character.model.eulerAngles = recordingStartEuler;

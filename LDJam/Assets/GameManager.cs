@@ -53,7 +53,8 @@ public class GameManager : MonoBehaviour
           // {
                Transform t = (Transform)Transform.Instantiate(Stage1,GameObject.Find(SpawnPoint).transform.position,GameObject.Find(SpawnPoint).transform.rotation);
                CharacterRecorder r = t.GetComponent<CharacterRecorder>();
-               r.strokeDict = characterRecords[i].strokeDict;
+               //r.strokeDict = characterRecords[i].strokeDict;
+                  r.strokes = characterRecords[i].strokes;
                 r.unitType = characterRecords[i].unitType;
                t.GetComponent<CharacterMovement>().isMainCharacter = false;
                r.PlayReset();
