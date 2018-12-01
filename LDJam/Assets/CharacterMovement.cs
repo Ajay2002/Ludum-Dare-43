@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
-{
+{   
+    
+    public bool isMainCharacter = true;
+    public float Health = 100f;
     public float playerHeight;
     public float speed = 0f;
     public float maxSpeed = 4f;
@@ -12,11 +15,175 @@ public class CharacterMovement : MonoBehaviour
     public Animator animator;
     public Camera cam;
     public Transform model;
-public Transform gun;
+    public Transform gun;
     public bool inputLock = false;
-    private void Awake() {
-        
+    public CharacterRecorder recorder;
+
+    //02
+    public MeshRenderer helment;
+
+    //STAGE SEPERATION
+    [Header("Stage 1")]
+    public Transform gun1;
+    public Color helmetColor;
+
+    [Header("Stage 2")]
+    public Transform gun2;
+    public Color helmentColor2;
+
+    [Header("Stage 3")]
+    public Transform gun3;
+    public Color helmentColor3;
+
+
+    public void SetType (int index)
+    {
+        if (index == 0)
+        {
+            recorder.unitType = UnitType.Stage1;
+        }
+        else if ( index == 1)
+        {
+            recorder.unitType = UnitType.Stage2;
+        }
+        else if (index == 2)
+        {
+            recorder.unitType = UnitType.Stage3;
+        }
+
+        if (recorder.unitType == UnitType.Stage1)
+        {
+            gun2.gameObject.SetActive(false);
+            gun3.gameObject.SetActive(false);
+            gun1.gameObject.SetActive(true);
+            helment.materials[2].color = helmetColor;
+
+            shootingManager.gun = gun1;
+            gun = gun1;
+            shootingManager.type = ShootingManager.GunType.AK47;
+
+            Health = 100;
+            speed = 0.01f;
+
+        }
+        else if (recorder.unitType == UnitType.Stage2)
+        {
+            gun2.gameObject.SetActive(true);
+            gun3.gameObject.SetActive(false);
+            gun1.gameObject.SetActive(false);
+            helment.materials[2].color = helmentColor2;
+
+            shootingManager.gun = gun2;
+            gun = gun2;
+            shootingManager.type = ShootingManager.GunType.SHOTGUN;
+
+            Health = 200;
+            speed = 0.015f;
+        }
+        else if (recorder.unitType == UnitType.Stage3)
+        {
+            gun2.gameObject.SetActive(false);
+            gun3.gameObject.SetActive(true);
+            gun1.gameObject.SetActive(false);
+            helment.materials[2].color = helmentColor3;
+
+            shootingManager.type = ShootingManager.GunType.SEMI;
+            gun = gun3;
+            shootingManager.gun = gun3;
+
+            Health = 100;
+            speed = 0.02f;
+        }
+
+        GameObject.FindObjectOfType<UIManager>().HideSelectionScreen();
+        Time.timeScale = 1f;
+        GameObject.FindObjectOfType<GameManager>().RespawnAll();
+
     }
+
+    private void Start() {
+
+        
+
+        recorder = GetComponent<CharacterRecorder>();
+
+        if (recorder.unitType == UnitType.Stage1)
+        {
+            gun2.gameObject.SetActive(false);
+            gun3.gameObject.SetActive(false);
+            gun1.gameObject.SetActive(true);
+            helment.materials[2].color = helmetColor;
+
+            shootingManager.type = ShootingManager.GunType.AK47;
+            gun = gun1;
+            shootingManager.gun = gun1;
+
+            Health = 100;
+            speed = 0.01f;
+
+        }
+        else if (recorder.unitType == UnitType.Stage2)
+        {
+            gun2.gameObject.SetActive(true);
+            gun3.gameObject.SetActive(false);
+            gun1.gameObject.SetActive(false);
+            helment.materials[2].color = helmentColor2;
+            Health = 200;
+            speed = 0.015f;
+
+            shootingManager.type = ShootingManager.GunType.SHOTGUN;
+            gun = gun2;
+            shootingManager.gun = gun2;
+
+        }
+        else if (recorder.unitType == UnitType.Stage3)
+        {
+            gun2.gameObject.SetActive(false);
+            gun3.gameObject.SetActive(true);
+            gun1.gameObject.SetActive(false);
+            helment.materials[2].color = helmentColor3;
+
+            shootingManager.type = ShootingManager.GunType.SEMI;
+            gun = gun3;
+            shootingManager.gun = gun3;
+
+            Health = 300;
+            speed = 0.02f;
+        }
+
+        if (isMainCharacter)
+            GameObject.FindObjectOfType<ConsistentOffset>().offsetTransform = this.transform.GetChild(0);
+
+        if (cam == null) {
+            cam = Camera.main;
+        }
+    }
+
+   
+
+    bool dead = false;
+    public void Injure(float damage) {
+         Health -= damage;
+        if (Health < 0) {
+            dead = true;
+            //Any death particles + Destroy (Sink)
+            print("Death");
+            if (isMainCharacter) {
+                GameManager.ResetScene();
+            }
+            else {
+                transform.GetChild(0).gameObject.SetActive(false);
+            }
+           //Return to menu etc...
+        }
+        else {
+
+            //Blood Particles whatever
+
+        }
+    }
+
+
     [HideInInspector]
     public Vector3 inp = Vector3.zero;
     private void FixedUpdate() {
@@ -51,34 +218,36 @@ public Transform gun;
 
     private bool shot = false;
     public void InputStroke(bool W, bool A, bool S, bool D, bool C, Vector3 InpPos, float gunAngle) {
-        if (W) {
-            inp.z = Mathf.Lerp(inp.z,1,0.4f);
-        }
-        else if (S) {
-            inp.z = Mathf.Lerp(inp.z,-1,0.4f);
-        }
+        if (!dead) {
+            if (W) {
+                inp.z = Mathf.Lerp(inp.z,1,0.4f);
+            }
+            else if (S) {
+                inp.z = Mathf.Lerp(inp.z,-1,0.4f);
+            }
 
-        if (A) {
-            inp.x = Mathf.Lerp(inp.x,-1,0.4f);
-        }
-        else if (D) {
-            inp.x = Mathf.Lerp(inp.x,1,0.4f);
-        }
+            if (A) {
+                inp.x = Mathf.Lerp(inp.x,-1,0.4f);
+            }
+            else if (D) {
+                inp.x = Mathf.Lerp(inp.x,1,0.4f);
+            }
 
-        if (C && !shot) {
-            shot = true;
-            shootingManager.InstantiateBullet();
+            if (C && !shot) {
+                shot = true;
+                shootingManager.InstantiateBullet();
+            }
+            if (!C) {
+                shot = false;
+            }
+
+            inp = Vector3.ClampMagnitude(inp,1);
+
+            MovementCode(inp*speed);
+            AimCode(InpPos,gunAngle);
+
+            inp = Vector3.Lerp(inp, Vector3.zero,0.1f);
         }
-        if (!C) {
-            shot = false;
-        }
-
-        inp = Vector3.ClampMagnitude(inp,1);
-
-        MovementCode(inp*speed);
-        AimCode(InpPos,gunAngle);
-
-        inp = Vector3.Lerp(inp, Vector3.zero,0.1f);
     }
 
     private void MovementCode(Vector3 input) {
@@ -93,13 +262,18 @@ public Transform gun;
         }
         
      
-        
-        input = cam.transform.TransformDirection(input);
-        input.y*=0;
+        if (cam != null) { 
+            input = cam.transform.TransformDirection(input);
+            input.y*=0;
+        }
+        else {
+            input = Camera.main.transform.TransformDirection(input);
+            input.y*=0;
+        }
     
         Vector3 retInput = model.TransformDirection(input);
 
-        //rBody.velocity = input;
+       // rBody.velocity = input;
         transform.position += input;
 
             
@@ -136,7 +310,8 @@ public Transform gun;
 
     private void AimCode(Vector3 inp, float gAngle) {
         gun.localEulerAngles = new Vector3(gAngle,gun.localEulerAngles.y,gun.localEulerAngles.z);
-        Ray ray = cam.ScreenPointToRay(inp);
+        model.eulerAngles = inp;
+        /*Ray ray = cam.ScreenPointToRay(inp);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit)) {
@@ -144,7 +319,7 @@ public Transform gun;
             hP.y = model.position.y;
             model.LookAt(hP);
 
-        }
+        }*/
 
     }
 

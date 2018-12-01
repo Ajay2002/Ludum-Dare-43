@@ -10,6 +10,7 @@ public class ConsistentOffset : MonoBehaviour
     public float speed;
 
     private void LateUpdate() {
+        if (transform != null)
         transform.position = offsetTransform.position+offsetVector;
     }
 
