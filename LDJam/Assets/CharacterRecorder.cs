@@ -6,6 +6,7 @@ public class CharacterRecorder : MonoBehaviour
 {
     #region  Variables
     public CharacterMovement character;
+    public ShootingManager shooting;
     public float timer = 0f;
     public List<InputStroke> strokes = new List<InputStroke>();
     public Dictionary<float, InputStroke> strokeDict = new Dictionary<float, InputStroke>();
@@ -42,7 +43,10 @@ public class CharacterRecorder : MonoBehaviour
 
     int pos = 0;
 
-    bool W,A,S,D;
+    bool W,A,S,D,C;
+    Vector3 mPos;
+    float gAngle;
+
     public void Playing() {
 
         InputStroke s = null;
@@ -79,9 +83,20 @@ public class CharacterRecorder : MonoBehaviour
                 D = false;
             }
             
+            if (waitFor.EVENTCLICK == "Down") {
+                C = true;
+                mPos = waitFor.MousePos;
+            }
+            else if (waitFor.EVENTCLICK == "Up") {
+                C = false;
+                mPos = waitFor.MousePos;
+            }
+
+            mPos = waitFor.MousePos;
+            gAngle = waitFor.gunAngle;
         }
 
-        character.InputStroke(W,A,S,D);
+        character.InputStroke(W,A,S,D,C,mPos,gAngle);
 
     }
 
@@ -93,48 +108,66 @@ public class CharacterRecorder : MonoBehaviour
        
         if (Input.GetKeyDown(KeyCode.W)) {
             s.EVENTVERT = "WDown";
+            s.MousePos = Input.mousePosition;
             eventRequired = true;
+            s.gunAngle = character.gun.localEulerAngles.x;
         }
         else if (Input.GetKeyDown(KeyCode.S)) {
             s.EVENTVERT = "SDown";
+            s.MousePos = Input.mousePosition;
             eventRequired = true;
+            s.gunAngle = character.gun.localEulerAngles.x;
         }
 
         if (Input.GetKeyUp(KeyCode.W)) {
             s.EVENTVERT = "WUp";
+            s.MousePos = Input.mousePosition;
             eventRequired = true;
+            s.gunAngle = character.gun.localEulerAngles.x;
         }
         else if (Input.GetKeyUp(KeyCode.S)) {
             s.EVENTVERT = "SUp";
+            s.MousePos = Input.mousePosition;
             eventRequired = true;
+            s.gunAngle = character.gun.localEulerAngles.x;
         }
 
         if (Input.GetKeyDown(KeyCode.A)) {
             s.EVENTHORIZ = "ADown";
+            s.MousePos = Input.mousePosition;
             eventRequired = true;
+            s.gunAngle = character.gun.localEulerAngles.x;
         }
         else if (Input.GetKeyDown(KeyCode.D)) {
             s.EVENTHORIZ = "DDown";
+            s.MousePos = Input.mousePosition;
             eventRequired = true;
+            s.gunAngle = character.gun.localEulerAngles.x;
         }
 
         if (Input.GetKeyUp(KeyCode.A)) {
             s.EVENTHORIZ = "AUp";
+            s.MousePos = Input.mousePosition;
             eventRequired = true;
+            s.gunAngle = character.gun.localEulerAngles.x;
         }
         else if (Input.GetKeyUp(KeyCode.D)) {
             s.EVENTHORIZ = "DUp";
+            s.MousePos = Input.mousePosition;
             eventRequired = true;
+            s.gunAngle = character.gun.localEulerAngles.x;
         }
 
         if (Input.GetMouseButtonDown(0)) {
             s.EVENTCLICK="Down";eventRequired = true;
             s.MousePos = Input.mousePosition;
+            s.gunAngle = character.gun.localEulerAngles.x;
         }
 
         if (Input.GetMouseButtonUp(0)) {
             s.EVENTCLICK="Up";eventRequired = true;
             s.MousePos = Input.mousePosition;
+            s.gunAngle = character.gun.localEulerAngles.x;
         }
 
         s.AtTime = timer;
@@ -173,8 +206,11 @@ public class CharacterRecorder : MonoBehaviour
     }
 
     private void PlayReset() {
-       
+        
+
+        character.rBody.collisionDetectionMode = CollisionDetectionMode.Discrete;
         character.inp = Vector3.zero;
+        shooting.inputLocked = true;
         recordingMode = false;
         playingMode = false;
         character.inputLock = true;
@@ -194,8 +230,11 @@ public class InputStroke {
     public string EVENTHORIZ;
     public string EVENTCLICK;
     public Vector3 MousePos;
+    public float gunAngle;
 
     public float AtTime = 0f;
 
 
 }
+
+//THATS IT FOR A FULL INPUT RECORDER!!!
