@@ -12,7 +12,7 @@ public class CharacterMovement : MonoBehaviour
     public Animator animator;
     public Camera cam;
     public Transform model;
-
+public Transform gun;
     public bool inputLock = false;
     private void Awake() {
         
@@ -47,8 +47,10 @@ public class CharacterMovement : MonoBehaviour
 
     }
 
+    public ShootingManager shootingManager;
 
-    public void InputStroke(bool W, bool A, bool S, bool D) {
+    private bool shot = false;
+    public void InputStroke(bool W, bool A, bool S, bool D, bool C, Vector3 InpPos, float gunAngle) {
         if (W) {
             inp.z = Mathf.Lerp(inp.z,1,0.4f);
         }
@@ -63,10 +65,18 @@ public class CharacterMovement : MonoBehaviour
             inp.x = Mathf.Lerp(inp.x,1,0.4f);
         }
 
+        if (C && !shot) {
+            shot = true;
+            shootingManager.InstantiateBullet();
+        }
+        if (!C) {
+            shot = false;
+        }
+
         inp = Vector3.ClampMagnitude(inp,1);
 
         MovementCode(inp*speed);
-        AimCode();
+        AimCode(InpPos,gunAngle);
 
         inp = Vector3.Lerp(inp, Vector3.zero,0.1f);
     }
@@ -89,8 +99,8 @@ public class CharacterMovement : MonoBehaviour
     
         Vector3 retInput = model.TransformDirection(input);
 
-        rBody.velocity = input;
-        
+        //rBody.velocity = input;
+        transform.position += input;
 
             
         Ray ray = new Ray(model.position+retInput*0.005f,-model.up);
@@ -108,14 +118,32 @@ public class CharacterMovement : MonoBehaviour
 
     private void AimCode() {
 
+        gun.localEulerAngles = new Vector3(Mathf.Lerp(gun.localEulerAngles.x,gun.localEulerAngles.x-Input.mouseScrollDelta.y*0.4f,0.8f),gun.localEulerAngles.y,gun.localEulerAngles.z);
+
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit)) {
+            Vector3 hP = hit.point;
+           
+            hP.y = model.position.y;
+            model.LookAt(hP);
+
+
+        }
+
+    }
+
+    private void AimCode(Vector3 inp, float gAngle) {
+        gun.localEulerAngles = new Vector3(gAngle,gun.localEulerAngles.y,gun.localEulerAngles.z);
+        Ray ray = cam.ScreenPointToRay(inp);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit)) {
             Vector3 hP = hit.point;
             hP.y = model.position.y;
             model.LookAt(hP);
-;
+
         }
 
     }
