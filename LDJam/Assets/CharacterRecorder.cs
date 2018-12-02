@@ -64,6 +64,11 @@ public class CharacterRecorder : MonoBehaviour
         if (timer>=waitFor.AtTime || Mathf.Approximately(timer,waitFor.AtTime)) {
             //waitFor = s;
 
+            if (waitFor.ENDTRUE == "TRUE")
+            {
+                character.Injure(10000);
+            }
+
             if (waitFor.EVENTVERT == "WDown") {
                 W = true;
             }
@@ -237,9 +242,13 @@ public class CharacterRecorder : MonoBehaviour
         s.EVENTCLICK = "Up";
         s.EVENTHORIZ = "DUp";
         s.EVENTVERT = "SUp";
+        
+        s2.ENDTRUE = "TRUE";
 
         strokes.Add(s);
         strokes.Add(s2);
+
+
     }
 
     public void PlayReset() {
