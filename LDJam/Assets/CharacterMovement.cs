@@ -97,7 +97,7 @@ public class CharacterMovement : MonoBehaviour
                 gun = gun1;
                 shootingManager.type = ShootingManager.GunType.AK47;
 
-                Health = 100;
+                Health = 60;
                 speed = 0.01f;
 
             }
@@ -113,7 +113,7 @@ public class CharacterMovement : MonoBehaviour
                 gun = gun2;
                 shootingManager.type = ShootingManager.GunType.SHOTGUN;
 
-                Health = 200;
+                Health = 170;
                 speed = 0.015f;
             }
             else if (recorder.unitType == UnitType.Stage3)
@@ -128,7 +128,7 @@ public class CharacterMovement : MonoBehaviour
                 gun = gun3;
                 shootingManager.gun = gun3;
 
-                Health = 100;
+                Health = 270;
                 speed = 0.02f;
             }
 
@@ -145,7 +145,7 @@ public class CharacterMovement : MonoBehaviour
                 gun = gun4;
                 shootingManager.gun = gun1;
 
-                Health = 150;
+                Health = 170;
                 speed = 0.005f;
 
             }
@@ -159,8 +159,8 @@ public class CharacterMovement : MonoBehaviour
 
     private void Start() {
 
-        
 
+        manUI = GameObject.FindObjectOfType<UIManager>();
         recorder = GetComponent<CharacterRecorder>();
 
         if (recorder.unitType == UnitType.Stage1)
@@ -175,7 +175,7 @@ public class CharacterMovement : MonoBehaviour
             gun = gun1;
             shootingManager.gun = gun1;
 
-            Health = 150;
+            Health = 60;
             speed = 0.01f;
 
         }
@@ -186,7 +186,7 @@ public class CharacterMovement : MonoBehaviour
             gun1.gameObject.SetActive(false);
             gun4.gameObject.SetActive(false);
             helment.materials[2].color = helmentColor2;
-            Health = 200;
+            Health = 120;
             speed = 0.015f;
 
             shootingManager.type = ShootingManager.GunType.SHOTGUN;
@@ -206,7 +206,7 @@ public class CharacterMovement : MonoBehaviour
             gun = gun3;
             shootingManager.gun = gun3;
 
-            Health = 300;
+            Health = 270;
             speed = 0.02f;
         }
         else if (recorder.unitType == UnitType.DoorHandler)
@@ -222,7 +222,7 @@ public class CharacterMovement : MonoBehaviour
             gun = gun4;
             shootingManager.gun = gun1;
 
-            Health = 300;
+            Health = 170;
             speed = 0.005f;
 
         }
@@ -257,9 +257,12 @@ public class CharacterMovement : MonoBehaviour
 
         }
     }
-
+    UIManager manUI; 
     private void Update()
     {
+        if (manUI.gameOver)
+            inputLock = true;
+
         if (timer > 0 && dead == true)
         {
             timer -= Time.deltaTime;
@@ -388,7 +391,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void AimCode() {
 
-        gun.localEulerAngles = new Vector3(Mathf.Lerp(gun.localEulerAngles.x,gun.localEulerAngles.x-Input.mouseScrollDelta.y*0.4f,0.8f),gun.localEulerAngles.y,gun.localEulerAngles.z);
+       // gun.localEulerAngles = new Vector3(Mathf.Lerp(gun.localEulerAngles.x,gun.localEulerAngles.x-Input.mouseScrollDelta.y*0.4f,0.8f),gun.localEulerAngles.y,gun.localEulerAngles.z);
 
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -398,7 +401,7 @@ public class CharacterMovement : MonoBehaviour
             aimSphere.position = hP;
             hP.y = model.position.y;
             model.LookAt(hP);
-
+            gun.LookAt(hit.point);
 
         }
 
