@@ -26,6 +26,9 @@ public class EnemyAI : MonoBehaviour
             GameManager.points += pointsAward;
             //Any death particles + Destroy (Sink)
             transform.GetChild(0).GetComponent<BoxCollider>().enabled = false;
+
+            FindObjectOfType<GameManager>().OneDied();
+
             Destroy(this.gameObject,3f);
             ded = true;
 

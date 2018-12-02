@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public static int respawnCount = 0;
     public UnitType spawnType;
 
+    public int enemyCount = 0;
+
     public static int points = 0;
     void Awake()
     {
@@ -34,6 +36,7 @@ public class GameManager : MonoBehaviour
         if (respawnCount == 0)
         {
             //BEGIN + INSTRUCTIONS
+            print("BEGIN & INSTRUCTIONS SEGMENT");
             
         }
         else
@@ -41,8 +44,19 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0;
             GameObject.FindObjectOfType<UIManager>().DisplaySelectionScreen();
         }
+
+        EnemyAI[] ais = GameObject.FindObjectsOfType<EnemyAI>();
+        enemyCount = ais.Length;
         
-        
+    }
+
+    public void OneDied()
+    {
+        enemyCount -= 1;
+        if (enemyCount <= 0)
+        {
+            print("GAME OVER YOU WIN");
+        }
     }
     
     public void RespawnAll() {
@@ -75,12 +89,13 @@ public class GameManager : MonoBehaviour
 
         if (respawnCount < 50)
         {
+            print("RESPAWN NEXT SEGMENT");
             Application.LoadLevel(0);
         }
         else
         {
             //LOAD GAMEOVER
-
+            print("YOU DIED GAME OVER");
         }
     }
         
