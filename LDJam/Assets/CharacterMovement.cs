@@ -228,9 +228,10 @@ public class CharacterMovement : MonoBehaviour
 
         }
 
-        if (isMainCharacter)
+        if (isMainCharacter) {
             GameObject.FindObjectOfType<ConsistentOffset>().offsetTransform = this.transform.GetChild(0);
-
+            recorder.AddEmpty();
+        }
         if (cam == null) {
             cam = Camera.main;
         }
@@ -245,11 +246,20 @@ public class CharacterMovement : MonoBehaviour
         if (Health < 0) {
             timer = 1f;
             dead = true;
-            inputLock = true;
-            recorder.AddEmpty();
+            
+            
             //Any death particles + Destroy (Sink)
           
-           
+            if (isMainCharacter)
+            {
+                inputLock = true;
+                recorder.AddEmpty();
+                GameManager.ResetScene();
+            }
+            else
+            {
+                transform.GetChild(0).gameObject.SetActive(false);
+            }
            //Return to menu etc...
         }
         else {
@@ -272,14 +282,7 @@ public class CharacterMovement : MonoBehaviour
         
         if (timer <= 0 && dead == true)
         {
-            if (isMainCharacter)
-            {
-                GameManager.ResetScene();
-            }
-            else
-            {
-                transform.GetChild(0).gameObject.SetActive(false);
-            }
+           
         }
     }
 

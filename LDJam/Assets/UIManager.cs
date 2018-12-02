@@ -85,7 +85,7 @@ public class UIManager : MonoBehaviour
         }
 
         gameOverScore.text = score.ToString();
-        attemptScore.text ="In " +  attempts.ToString() + "/40 ATTEMPTS";
+        attemptScore.text ="In " +  attempts.ToString() + "/70 ATTEMPTS";
 
     }
 
