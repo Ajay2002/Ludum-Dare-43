@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
             GameObject.FindObjectOfType<UIManager>().DisplaySelectionScreen();
         }
 
-        GameObject.FindObjectOfType<UIManager>().Tries.text = respawnCount + " / 70 max attempts";
+        GameObject.FindObjectOfType<UIManager>().Tries.text = respawnCount + " / 40 max attempts";
 
         EnemyAI[] ais = GameObject.FindObjectsOfType<EnemyAI>();
         enemyCount = ais.Length;
@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
         if (!called)
         {
             respawnCount += 1;
-            GameObject.FindObjectOfType<UIManager>().Tries.text = respawnCount + "/ 70";
+            GameObject.FindObjectOfType<UIManager>().Tries.text = respawnCount + "/ 40";
             CharacterRecorder[] rec = FindObjectsOfType<CharacterRecorder>();
             characterRecords.Clear();
             for (int i = 0; i < rec.Length; i++)
@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
             }
 
             //70
-            if (respawnCount < 70)
+            if (respawnCount < 40)
             {
                 print("RESPAWN NEXT SEGMENT");
                 Application.LoadLevel(2);
