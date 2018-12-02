@@ -6,17 +6,17 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1583278248004038870}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &7980297541977040003 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8883167164888306773, guid: 6748d3e0cd804984a8f00c0a7fac6a28,
-    type: 3}
-  m_PrefabInstance: {fileID: 1583278248004038870}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &5227607562127284620 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 19800000, guid: 4560e456c4ec0d3418fffd368dd1e7ff,
     type: 3}
   m_PrefabInstance: {fileID: 5227607562107487820}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7980297541977040003 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8883167164888306773, guid: 6748d3e0cd804984a8f00c0a7fac6a28,
+    type: 3}
+  m_PrefabInstance: {fileID: 1583278248004038870}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1583278248004038870
 PrefabInstance:
@@ -215,21 +215,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.038986206
       objectReference: {fileID: 0}
-    - target: {fileID: 8883167164888205429, guid: 6748d3e0cd804984a8f00c0a7fac6a28,
-        type: 3}
-      propertyPath: m_Layer
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 8883167164888205429, guid: 6748d3e0cd804984a8f00c0a7fac6a28,
-        type: 3}
-      propertyPath: m_TagString
-      value: DoorBreaker
-      objectReference: {fileID: 0}
-    - target: {fileID: 8883167164888205429, guid: 6748d3e0cd804984a8f00c0a7fac6a28,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8883167164888306773, guid: 6748d3e0cd804984a8f00c0a7fac6a28,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -354,6 +339,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.038986206
+      objectReference: {fileID: 0}
+    - target: {fileID: 8883167164888205429, guid: 6748d3e0cd804984a8f00c0a7fac6a28,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8883167164888205429, guid: 6748d3e0cd804984a8f00c0a7fac6a28,
+        type: 3}
+      propertyPath: m_TagString
+      value: DoorBreaker
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6748d3e0cd804984a8f00c0a7fac6a28, type: 3}
