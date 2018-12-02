@@ -8,6 +8,9 @@ public class EnemyAI : MonoBehaviour
     public ShootingManager shooting;
     public float Health = 100f;
     public float fireRate = 0f;
+
+    public AudioSource source;
+    private SFX sfx;
     
     public int pointsAward = 1;
     
@@ -19,6 +22,11 @@ public class EnemyAI : MonoBehaviour
     public float coolTime = 0f;
 
     bool ded = false;
+
+    private void Start()
+    {
+        sfx = GameObject.FindObjectOfType<SFX>();
+    }
     public void Injure(float damage) {
         Health -= damage;
         if (Health < 0) {
@@ -27,14 +35,31 @@ public class EnemyAI : MonoBehaviour
             //Any death particles + Destroy (Sink)
             transform.GetChild(0).GetComponent<BoxCollider>().enabled = false;
 
+            if (source.clip != sfx.EnemyDeath)
+                source.clip = sfx.EnemyDeath;
+
+            source.volume += 2;
+            source.pitch = 0.7f;
+
+            if (!source.isPlaying)
+                source.Play();
+
             FindObjectOfType<GameManager>().OneDied();
 
             Destroy(this.gameObject,3f);
             ded = true;
 
+
         }
         else {
 
+            if (source.clip != sfx.EnemyDeath)
+                source.clip = sfx.EnemyDeath;
+
+            source.pitch = 3;
+
+            if (!source.isPlaying)
+            source.Play();
             //Blood Particles whatever
 
         }

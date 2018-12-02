@@ -251,7 +251,14 @@ PlayerSettings:
   androidGamepadSupportLevel: 0
   AndroidJvmMaxHeapSize: 4096
   resolutionDialogBanner: {fileID: 0}
-  m_BuildTargetIcons: []
+  m_BuildTargetIcons:
+  - m_BuildTarget: 
+    m_Icons:
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: afd9d3a2ec304fe43b2f5e0dacc29ea2, type: 3}
+      m_Width: 128
+      m_Height: 128
+      m_Kind: 0
   m_BuildTargetPlatformIcons: []
   m_BuildTargetBatching:
   - m_BuildTarget: Standalone
@@ -616,6 +623,6 @@ PlayerSettings:
   projectName: LDJam
   organizationId: bestbatchprogrammer101
   cloudEnabled: 0
-  enableNativePlatformBackendsForNewInputSystem: 0
+  enableNativePlatformBackendsForNewInputSystem: 1
   disableOldInputManagerSupport: 0
   legacyClampBlendShapeWeights: 0

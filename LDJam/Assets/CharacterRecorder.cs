@@ -251,6 +251,24 @@ public class CharacterRecorder : MonoBehaviour
 
     }
 
+    public void AddEmptyBeg()
+    {
+        InputStroke s = new InputStroke();
+        s.EVENTCLICK = "Up";
+        s.EVENTHORIZ = "AUp";
+        s.EVENTVERT = "WUp";
+
+        InputStroke s2 = new InputStroke();
+        s.EVENTCLICK = "Up";
+        s.EVENTHORIZ = "DUp";
+        s.EVENTVERT = "SUp";
+        
+        strokes.Add(s);
+        strokes.Add(s2);
+
+
+    }
+
     public void PlayReset() {
         
 

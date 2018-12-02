@@ -5,6 +5,8 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     public float completedY = 90;
+
+
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "DoorBreaker")

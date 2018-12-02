@@ -21,6 +21,10 @@ public class CharacterMovement : MonoBehaviour
     public bool inputLock = false;
     public CharacterRecorder recorder;
 
+    private SFX sfx;
+    public AudioSource sourceDamage;
+    public AudioSource sourceFootsteps;
+
     //02
     public MeshRenderer helment;
 
@@ -160,7 +164,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void Start() {
 
-
+        sfx = GameObject.FindObjectOfType<SFX>();
         manUI = GameObject.FindObjectOfType<UIManager>();
         recorder = GetComponent<CharacterRecorder>();
 
@@ -230,7 +234,7 @@ public class CharacterMovement : MonoBehaviour
 
         if (isMainCharacter) {
             GameObject.FindObjectOfType<ConsistentOffset>().offsetTransform = this.transform.GetChild(0);
-            recorder.AddEmpty();
+            recorder.AddEmptyBeg();
         }
         if (cam == null) {
             cam = Camera.main;
@@ -244,27 +248,36 @@ public class CharacterMovement : MonoBehaviour
     public void Injure(float damage) {
          Health -= damage;
         if (Health < 0) {
-            timer = 1f;
+            if (dead == false)
+            timer = 0.5f;
             dead = true;
-            
-            
+            inputLock = true;
+            recorder.AddEmpty();
+
+            //if (isMainCharacter)
+            //{
+            sourceDamage.volume += 2;
+            sourceDamage.clip = sfx.PlayerDeath;
+                sourceDamage.pitch = 0.9f;
+                if (!sourceDamage.isPlaying)
+                    sourceDamage.Play();
+                //Blood Particles whatever
+            //}
             //Any death particles + Destroy (Sink)
-          
-            if (isMainCharacter)
-            {
-                inputLock = true;
-                recorder.AddEmpty();
-                GameManager.ResetScene();
-            }
-            else
-            {
-                transform.GetChild(0).gameObject.SetActive(false);
-            }
-           //Return to menu etc...
+
+
+            //Return to menu etc...
         }
         else {
 
-            //Blood Particles whatever
+            //if (isMainCharacter)
+            //{
+                sourceDamage.clip = sfx.PlayerDeath;
+                sourceDamage.pitch = 3;
+                if (!sourceDamage.isPlaying)
+                    sourceDamage.Play();
+                //Blood Particles whatever
+            //}
 
         }
     }
@@ -277,12 +290,21 @@ public class CharacterMovement : MonoBehaviour
         if (timer > 0 && dead == true)
         {
             timer -= Time.deltaTime;
-            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.05f);
+            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.2f);
         }
         
         if (timer <= 0 && dead == true)
         {
-           
+            if (isMainCharacter)
+            {
+                GameManager.called = false;
+
+                GameManager.ResetScene();
+            }
+            else
+            {
+                transform.GetChild(0).gameObject.SetActive(false);
+            }
         }
     }
 
@@ -312,7 +334,7 @@ public class CharacterMovement : MonoBehaviour
             MovementCode(inp*speed);
             AimCode();
 
-            inp = Vector3.Lerp(inp, Vector3.zero,0.1f);
+            inp = Vector3.Lerp(inp, Vector3.zero,0.3f);
         }
 
     }
@@ -349,7 +371,7 @@ public class CharacterMovement : MonoBehaviour
             MovementCode(inp*speed);
             AimCode(InpPos,gunAngle);
 
-            inp = Vector3.Lerp(inp, Vector3.zero,0.1f);
+            inp = Vector3.Lerp(inp, Vector3.zero, 0.3f);
         }
     }
 
@@ -358,7 +380,15 @@ public class CharacterMovement : MonoBehaviour
       
         
         if (input.magnitude > 0f) {
-            animator.SetBool("walking",true);
+            if (isMainCharacter)
+            {
+                if (sourceFootsteps.clip != sfx.FootStep)
+                    sourceFootsteps.clip = sfx.FootStep;
+                if (!sourceFootsteps.isPlaying)
+                    sourceFootsteps.Play();
+                
+            }
+            animator.SetBool("walking", true);
         }
         else {
             animator.SetBool("walking",false);

@@ -102,6 +102,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59283a13217bb2b4798ac55d913501d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!82 &5225931101572538881 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6023385393482780792, guid: e57664d8c06ff164696224a4545e2e0b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1950447574552212089}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8789319943523306009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,6 +124,8 @@ MonoBehaviour:
     type: 3}
   gun: {fileID: 6734251765024361195}
   bulletSpawn: {fileID: 8643944158354328278}
+  source: {fileID: 5225931101572538881}
+  sfx: {fileID: 0}
   muzzleFlash: {fileID: 0}
   inputLocked: 0
   type: 0
