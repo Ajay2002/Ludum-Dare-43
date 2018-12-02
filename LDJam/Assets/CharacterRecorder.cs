@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+   public enum UnitType {
+        Stage1,Stage2,Stage3,DoorHandler
+    }
 public class CharacterRecorder : MonoBehaviour
 {
     #region  Variables
+ 
+    public UnitType unitType;
     public CharacterMovement character;
     public ShootingManager shooting;
     public float timer = 0f;
@@ -16,18 +20,23 @@ public class CharacterRecorder : MonoBehaviour
     public bool playingMode = false;
 
     private Vector3 recordingStart;
+    private Vector3 recordingStartEuler;
+    private Vector3 recordingStartEulerGun;
 
     #endregion
     
+    private void Awake() {
+        ResetRecord();
+    }
     private void FixedUpdate() {
-
+        /* 
         if (Input.GetKeyDown(KeyCode.R)) {
             ResetRecord();
         }
 
         if (Input.GetKeyDown(KeyCode.P)) {
             PlayReset();
-        }
+        }*/
 
         if (recordingMode || playingMode) {
             timer += 0.0001f;
@@ -48,12 +57,12 @@ public class CharacterRecorder : MonoBehaviour
     float gAngle;
 
     public void Playing() {
-
-        InputStroke s = null;
-        strokeDict.TryGetValue(timer,out s);
-
-        if (s!=null) {
-            waitFor = s;
+        if (character.Health > 0 && strokes.Count > 0)  {
+       // InputStroke s = null;
+        //strokeDict.TryGetValue(timer,out s);
+        
+        if (timer==waitFor.AtTime || Mathf.Approximately(timer,waitFor.AtTime)) {
+            //waitFor = s;
 
             if (waitFor.EVENTVERT == "WDown") {
                 W = true;
@@ -85,19 +94,26 @@ public class CharacterRecorder : MonoBehaviour
             
             if (waitFor.EVENTCLICK == "Down") {
                 C = true;
-                mPos = waitFor.MousePos;
+                mPos = waitFor.eulerAngle;
             }
             else if (waitFor.EVENTCLICK == "Up") {
                 C = false;
-                mPos = waitFor.MousePos;
+                mPos = waitFor.eulerAngle;
             }
 
-            mPos = waitFor.MousePos;
+            mPos = waitFor.eulerAngle;
             gAngle = waitFor.gunAngle;
+
+            if (pos + 1 < strokes.Count)
+            {
+                pos += 1;
+                waitFor = strokes[pos];
+            }
+
         }
 
         character.InputStroke(W,A,S,D,C,mPos,gAngle);
-
+        }
     }
 
     InputStroke previous = null;
@@ -108,65 +124,65 @@ public class CharacterRecorder : MonoBehaviour
        
         if (Input.GetKeyDown(KeyCode.W)) {
             s.EVENTVERT = "WDown";
-            s.MousePos = Input.mousePosition;
+            s.eulerAngle = character.model.eulerAngles;
             eventRequired = true;
             s.gunAngle = character.gun.localEulerAngles.x;
         }
         else if (Input.GetKeyDown(KeyCode.S)) {
             s.EVENTVERT = "SDown";
-            s.MousePos = Input.mousePosition;
+            s.eulerAngle = character.model.eulerAngles;
             eventRequired = true;
             s.gunAngle = character.gun.localEulerAngles.x;
         }
 
         if (Input.GetKeyUp(KeyCode.W)) {
             s.EVENTVERT = "WUp";
-            s.MousePos = Input.mousePosition;
+            s.eulerAngle = character.model.eulerAngles;
             eventRequired = true;
             s.gunAngle = character.gun.localEulerAngles.x;
         }
         else if (Input.GetKeyUp(KeyCode.S)) {
             s.EVENTVERT = "SUp";
-            s.MousePos = Input.mousePosition;
+            s.eulerAngle = character.model.eulerAngles;
             eventRequired = true;
             s.gunAngle = character.gun.localEulerAngles.x;
         }
 
         if (Input.GetKeyDown(KeyCode.A)) {
             s.EVENTHORIZ = "ADown";
-            s.MousePos = Input.mousePosition;
+            s.eulerAngle = character.model.eulerAngles;
             eventRequired = true;
             s.gunAngle = character.gun.localEulerAngles.x;
         }
         else if (Input.GetKeyDown(KeyCode.D)) {
             s.EVENTHORIZ = "DDown";
-            s.MousePos = Input.mousePosition;
+            s.eulerAngle = character.model.eulerAngles;
             eventRequired = true;
             s.gunAngle = character.gun.localEulerAngles.x;
         }
 
         if (Input.GetKeyUp(KeyCode.A)) {
             s.EVENTHORIZ = "AUp";
-            s.MousePos = Input.mousePosition;
+            s.eulerAngle = character.model.eulerAngles;
             eventRequired = true;
             s.gunAngle = character.gun.localEulerAngles.x;
         }
         else if (Input.GetKeyUp(KeyCode.D)) {
             s.EVENTHORIZ = "DUp";
-            s.MousePos = Input.mousePosition;
+            s.eulerAngle = character.model.eulerAngles;
             eventRequired = true;
             s.gunAngle = character.gun.localEulerAngles.x;
         }
 
         if (Input.GetMouseButtonDown(0)) {
             s.EVENTCLICK="Down";eventRequired = true;
-            s.MousePos = Input.mousePosition;
+            s.eulerAngle = character.model.eulerAngles;
             s.gunAngle = character.gun.localEulerAngles.x;
         }
 
         if (Input.GetMouseButtonUp(0)) {
             s.EVENTCLICK="Up";eventRequired = true;
-            s.MousePos = Input.mousePosition;
+            s.eulerAngle = character.model.eulerAngles;
             s.gunAngle = character.gun.localEulerAngles.x;
         }
 
@@ -178,13 +194,15 @@ public class CharacterRecorder : MonoBehaviour
             }
             else {
                 if (eventRequired) {
-                    strokeDict.Add(timer,s);
+                  //  strokeDict.Add(timer,s);
+                    strokes.Add(s);
                 }
             }
         }
         else  {
             if (eventRequired) {
-                strokeDict.Add(timer,s);
+             //   strokeDict.Add(timer,s);
+                strokes.Add(s);
             }
         }
 
@@ -197,15 +215,18 @@ public class CharacterRecorder : MonoBehaviour
         timer = 0f;
         strokeDict.Clear();
         recordingStart = transform.position;
+        recordingStartEuler = character.model.eulerAngles;
+        recordingStartEulerGun = character.gun.eulerAngles;
         current = null;
         pos = 0;
         waitFor = null;
+        
         strokes.Clear();
 
         recordingMode = true;
     }
 
-    private void PlayReset() {
+    public void PlayReset() {
         
 
         character.rBody.collisionDetectionMode = CollisionDetectionMode.Discrete;
@@ -213,8 +234,14 @@ public class CharacterRecorder : MonoBehaviour
         shooting.inputLocked = true;
         recordingMode = false;
         playingMode = false;
+
+        if (strokes.Count > 0)
+        waitFor = strokes[pos];
+
         character.inputLock = true;
          timer = 0f;transform.position = recordingStart;
+         character.model.eulerAngles = recordingStartEuler;
+         character.gun.eulerAngles = recordingStartEulerGun;
         
        
         playingMode = true;
@@ -229,7 +256,7 @@ public class InputStroke {
     public string EVENTVERT;
     public string EVENTHORIZ;
     public string EVENTCLICK;
-    public Vector3 MousePos;
+    public Vector3 eulerAngle;
     public float gunAngle;
 
     public float AtTime = 0f;

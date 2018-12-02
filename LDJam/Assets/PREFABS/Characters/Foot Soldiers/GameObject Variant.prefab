@@ -25,7 +25,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 0}
+  gun: {fileID: 0}
   bulletSpawn: {fileID: 0}
+  inputLocked: 0
+  type: 0
 --- !u!1 &2801340472477398540
 GameObject:
   m_ObjectHideFlags: 0
