@@ -15,9 +15,12 @@ public class GameManager : MonoBehaviour
 
     public int enemyCount = 0;
 
+    public bool gameOver = false;
+
     public static int points = 0;
     void Awake()
     {
+        gameOver = false;
         //Check if instance already exists
         if (instance == null)
             
@@ -45,9 +48,17 @@ public class GameManager : MonoBehaviour
             GameObject.FindObjectOfType<UIManager>().DisplaySelectionScreen();
         }
 
+        GameObject.FindObjectOfType<UIManager>().Tries.text = respawnCount + " / 70 max attempts";
+
         EnemyAI[] ais = GameObject.FindObjectsOfType<EnemyAI>();
         enemyCount = ais.Length;
         
+    }
+
+    public void ReCount()
+    {
+        EnemyAI[] ais = GameObject.FindObjectsOfType<EnemyAI>();
+        enemyCount = ais.Length;
     }
 
     public void OneDied()
@@ -55,12 +66,17 @@ public class GameManager : MonoBehaviour
         enemyCount -= 1;
         if (enemyCount <= 0)
         {
-            print("GAME OVER YOU WIN");
+           
+            GameObject.FindObjectOfType<UIManager>().GameOver(true, points, respawnCount);
+            points = 0;
+            respawnCount = 0; spawnType = UnitType.Stage1;
+            characterRecords.Clear();
         }
     }
     
     public void RespawnAll() {
-        
+
+        called = false;
        for (int i = 0; i < characterRecords.Count; i++) {
            
          //  if (characterRecords[i].unitType == UnitType.Stage1)
@@ -75,27 +91,42 @@ public class GameManager : MonoBehaviour
            //}
 
        }
+
+        EnemyAI[] ais = GameObject.FindObjectsOfType<EnemyAI>();
+        enemyCount = ais.Length;
+
     }
 
+    public static bool called = false;
     public static void ResetScene() {
-        respawnCount += 1;
-        
-        CharacterRecorder[] rec = FindObjectsOfType<CharacterRecorder>();
-        characterRecords.Clear();
-        for (int i = 0; i < rec.Length; i++) {
-           
-            characterRecords.Add(rec[i]);
-        }
+        if (!called)
+        {
+            respawnCount += 1;
+            GameObject.FindObjectOfType<UIManager>().Tries.text = respawnCount + "/ 70";
+            CharacterRecorder[] rec = FindObjectsOfType<CharacterRecorder>();
+            characterRecords.Clear();
+            for (int i = 0; i < rec.Length; i++)
+            {
 
-        if (respawnCount < 50)
-        {
-            print("RESPAWN NEXT SEGMENT");
-            Application.LoadLevel(0);
-        }
-        else
-        {
-            //LOAD GAMEOVER
-            print("YOU DIED GAME OVER");
+                characterRecords.Add(rec[i]);
+            }
+
+            //70
+            if (respawnCount < 70)
+            {
+                print("RESPAWN NEXT SEGMENT");
+                Application.LoadLevel(2);
+            }
+            else
+            {
+                
+                GameObject.FindObjectOfType<UIManager>().GameOver(false, points, respawnCount);
+                points = 0;
+                respawnCount = 0;
+                characterRecords.Clear();
+                print("YOU DIED GAME OVER");
+            }
+            called = true;
         }
     }
         
