@@ -12,11 +12,13 @@ public class UIManager : MonoBehaviour
 
     public void DisplaySelectionScreen()
     {
+        GameObject.FindObjectOfType<CharacterMovement>().inputLock = true;
         deathScreen.SetActive(true);
     }
 
     public void HideSelectionScreen()
     {
+        GameObject.FindObjectOfType<CharacterMovement>().inputLock = false;
         deathScreen.SetActive(false);
     }
 

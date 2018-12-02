@@ -18,19 +18,30 @@ public class EnemyAI : MonoBehaviour
     public int bulletsShot = 0;
     public float coolTime = 0f;
 
+    bool ded = false;
     public void Injure(float damage) {
         Health -= damage;
         if (Health < 0) {
 
             GameManager.points += pointsAward;
             //Any death particles + Destroy (Sink)
-
+            transform.GetChild(0).GetComponent<BoxCollider>().enabled = false;
             Destroy(this.gameObject,3f);
+            ded = true;
+
         }
         else {
 
             //Blood Particles whatever
 
+        }
+    }
+
+    private void Update()
+    {
+        if (ded)
+        {
+            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.12f);
         }
     }
 
@@ -91,6 +102,7 @@ public class EnemyAI : MonoBehaviour
                                                 this.transform.root.position.y, 
                                                 other.transform.position.z ) ;
                 this.transform.root.LookAt( targetPostition ) ;
+                shooting.gun.LookAt(other.transform.position);
                 
                 timer += Time.deltaTime;
                 if (timer > fireRate && coolTime <= 0) {
@@ -126,5 +138,6 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+   
 
 }
