@@ -123,91 +123,110 @@ public class CharacterRecorder : MonoBehaviour
 
     InputStroke previous = null;
     private void InputGain() {
-        bool eventRequired = false;
-        InputStroke s = new InputStroke();
-        
-       
-        if (Input.GetKeyDown(KeyCode.W)) {
-            s.EVENTVERT = "WDown";
-            s.eulerAngle = character.model.eulerAngles;
-            eventRequired = true;
-            s.gunAngle = character.gun.localEulerAngles.x;
-        }
-        else if (Input.GetKeyDown(KeyCode.S)) {
-            s.EVENTVERT = "SDown";
-            s.eulerAngle = character.model.eulerAngles;
-            eventRequired = true;
-            s.gunAngle = character.gun.localEulerAngles.x;
-        }
+        if (character.Health > 0)
+        {
+            bool eventRequired = false;
+            InputStroke s = new InputStroke();
 
-        if (Input.GetKeyUp(KeyCode.W)) {
-            s.EVENTVERT = "WUp";
-            s.eulerAngle = character.model.eulerAngles;
-            eventRequired = true;
-            s.gunAngle = character.gun.localEulerAngles.x;
-        }
-        else if (Input.GetKeyUp(KeyCode.S)) {
-            s.EVENTVERT = "SUp";
-            s.eulerAngle = character.model.eulerAngles;
-            eventRequired = true;
-            s.gunAngle = character.gun.localEulerAngles.x;
-        }
 
-        if (Input.GetKeyDown(KeyCode.A)) {
-            s.EVENTHORIZ = "ADown";
-            s.eulerAngle = character.model.eulerAngles;
-            eventRequired = true;
-            s.gunAngle = character.gun.localEulerAngles.x;
-        }
-        else if (Input.GetKeyDown(KeyCode.D)) {
-            s.EVENTHORIZ = "DDown";
-            s.eulerAngle = character.model.eulerAngles;
-            eventRequired = true;
-            s.gunAngle = character.gun.localEulerAngles.x;
-        }
-
-        if (Input.GetKeyUp(KeyCode.A)) {
-            s.EVENTHORIZ = "AUp";
-            s.eulerAngle = character.model.eulerAngles;
-            eventRequired = true;
-            s.gunAngle = character.gun.localEulerAngles.x;
-        }
-        else if (Input.GetKeyUp(KeyCode.D)) {
-            s.EVENTHORIZ = "DUp";
-            s.eulerAngle = character.model.eulerAngles;
-            eventRequired = true;
-            s.gunAngle = character.gun.localEulerAngles.x;
-        }
-
-        if (Input.GetMouseButtonDown(0)) {
-            s.EVENTCLICK="Down";eventRequired = true;
-            s.eulerAngle = character.model.eulerAngles;
-            s.gunAngle = character.gun.localEulerAngles.x;
-        }
-
-        if (Input.GetMouseButtonUp(0)) {
-            s.EVENTCLICK="Up";eventRequired = true;
-            s.eulerAngle = character.model.eulerAngles;
-            s.gunAngle = character.gun.localEulerAngles.x;
-        }
-
-        s.AtTime = timer;
-
-        if (strokes.Count > 0) {
-            if (strokes[strokes.Count-1].EVENTHORIZ == s.EVENTHORIZ &&strokes[strokes.Count-1].EVENTCLICK == s.EVENTCLICK && strokes[strokes.Count-1].EVENTVERT == s.EVENTVERT) {
-
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                s.EVENTVERT = "WDown";
+                s.eulerAngle = character.model.eulerAngles;
+                eventRequired = true;
+                s.gunAngle = character.gun.localEulerAngles.x;
             }
-            else {
-                if (eventRequired) {
-                  //  strokeDict.Add(timer,s);
-                    strokes.Add(s);
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                s.EVENTVERT = "SDown";
+                s.eulerAngle = character.model.eulerAngles;
+                eventRequired = true;
+                s.gunAngle = character.gun.localEulerAngles.x;
+            }
+
+            if (Input.GetKeyUp(KeyCode.W))
+            {
+                s.EVENTVERT = "WUp";
+                s.eulerAngle = character.model.eulerAngles;
+                eventRequired = true;
+                s.gunAngle = character.gun.localEulerAngles.x;
+            }
+            else if (Input.GetKeyUp(KeyCode.S))
+            {
+                s.EVENTVERT = "SUp";
+                s.eulerAngle = character.model.eulerAngles;
+                eventRequired = true;
+                s.gunAngle = character.gun.localEulerAngles.x;
+            }
+
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                s.EVENTHORIZ = "ADown";
+                s.eulerAngle = character.model.eulerAngles;
+                eventRequired = true;
+                s.gunAngle = character.gun.localEulerAngles.x;
+            }
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                s.EVENTHORIZ = "DDown";
+                s.eulerAngle = character.model.eulerAngles;
+                eventRequired = true;
+                s.gunAngle = character.gun.localEulerAngles.x;
+            }
+
+            if (Input.GetKeyUp(KeyCode.A))
+            {
+                s.EVENTHORIZ = "AUp";
+                s.eulerAngle = character.model.eulerAngles;
+                eventRequired = true;
+                s.gunAngle = character.gun.localEulerAngles.x;
+            }
+            else if (Input.GetKeyUp(KeyCode.D))
+            {
+                s.EVENTHORIZ = "DUp";
+                s.eulerAngle = character.model.eulerAngles;
+                eventRequired = true;
+                s.gunAngle = character.gun.localEulerAngles.x;
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                s.EVENTCLICK = "Down"; eventRequired = true;
+                s.eulerAngle = character.model.eulerAngles;
+                s.gunAngle = character.gun.localEulerAngles.x;
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                s.EVENTCLICK = "Up"; eventRequired = true;
+                s.eulerAngle = character.model.eulerAngles;
+                s.gunAngle = character.gun.localEulerAngles.x;
+            }
+
+            s.AtTime = timer;
+
+            if (strokes.Count > 0)
+            {
+                if (strokes[strokes.Count - 1].EVENTHORIZ == s.EVENTHORIZ && strokes[strokes.Count - 1].EVENTCLICK == s.EVENTCLICK && strokes[strokes.Count - 1].EVENTVERT == s.EVENTVERT)
+                {
+
+                }
+                else
+                {
+                    if (eventRequired)
+                    {
+                        //  strokeDict.Add(timer,s);
+                        strokes.Add(s);
+                    }
                 }
             }
-        }
-        else  {
-            if (eventRequired) {
-             //   strokeDict.Add(timer,s);
-                strokes.Add(s);
+            else
+            {
+                if (eventRequired)
+                {
+                    //   strokeDict.Add(timer,s);
+                    strokes.Add(s);
+                }
             }
         }
 

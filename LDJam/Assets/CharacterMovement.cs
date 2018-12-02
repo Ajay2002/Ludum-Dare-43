@@ -103,7 +103,7 @@ public class CharacterMovement : MonoBehaviour
                 shootingManager.type = ShootingManager.GunType.AK47;
 
                 Health = 60;
-                speed = 0.01f;
+                speed = 0.006f;
 
             }
             else if (recorder.unitType == UnitType.Stage2)
@@ -119,7 +119,7 @@ public class CharacterMovement : MonoBehaviour
                 shootingManager.type = ShootingManager.GunType.SHOTGUN;
 
                 Health = 170;
-                speed = 0.015f;
+                speed = 0.011f;
             }
             else if (recorder.unitType == UnitType.Stage3)
             {
@@ -134,7 +134,7 @@ public class CharacterMovement : MonoBehaviour
                 shootingManager.gun = gun3;
 
                 Health = 270;
-                speed = 0.02f;
+                speed = 0.016f;
             }
 
             else if (recorder.unitType == UnitType.DoorHandler)
@@ -181,7 +181,7 @@ public class CharacterMovement : MonoBehaviour
             shootingManager.gun = gun1;
 
             Health = 60;
-            speed = 0.01f;
+            speed = 0.006f;
 
         }
         else if (recorder.unitType == UnitType.Stage2)
@@ -192,7 +192,7 @@ public class CharacterMovement : MonoBehaviour
             gun4.gameObject.SetActive(false);
             helment.materials[2].color = helmentColor2;
             Health = 120;
-            speed = 0.015f;
+            speed = 0.011f;
 
             shootingManager.type = ShootingManager.GunType.SHOTGUN;
             gun = gun2;
@@ -212,7 +212,7 @@ public class CharacterMovement : MonoBehaviour
             shootingManager.gun = gun3;
 
             Health = 270;
-            speed = 0.02f;
+            speed = 0.016f;
         }
         else if (recorder.unitType == UnitType.DoorHandler)
         {
@@ -261,6 +261,8 @@ public class CharacterMovement : MonoBehaviour
                 sourceDamage.pitch = 0.9f;
                 if (!sourceDamage.isPlaying)
                     sourceDamage.Play();
+
+            Invoke("Invokable", 0.5f);
                 //Blood Particles whatever
             //}
             //Any death particles + Destroy (Sink)
@@ -281,6 +283,21 @@ public class CharacterMovement : MonoBehaviour
 
         }
     }
+
+    void Invokable()
+    {
+        if (isMainCharacter)
+        {
+            GameManager.called = false;
+
+            GameManager.ResetScene();
+        }
+        else
+        {
+            transform.GetChild(0).gameObject.SetActive(false);
+        }
+    }
+
     UIManager manUI; 
     private void Update()
     {
