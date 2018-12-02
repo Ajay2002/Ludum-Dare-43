@@ -1012,6 +1012,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5076e2fa28270c469873f0a6bb6e403, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveToNext: 3
   deathScreen: {fileID: 34699894}
   status: {fileID: 1781623469}
   Tries: {fileID: 1673591537}
@@ -1020,6 +1021,8 @@ MonoBehaviour:
   gameOverScore: {fileID: 1668897696}
   attemptScore: {fileID: 685909367}
   winLoss: {fileID: 388722779}
+  respawn: {fileID: 0}
+  nextLevel: {fileID: 0}
   gameOver: 0
 --- !u!1 &100438836 stripped
 GameObject:

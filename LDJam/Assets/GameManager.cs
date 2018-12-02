@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
             if (respawnCount < 40)
             {
                 print("RESPAWN NEXT SEGMENT");
-                Application.LoadLevel(2);
+                Application.LoadLevel(GameObject.FindObjectOfType<UIManager>().moveToNext);
             }
             else
             {

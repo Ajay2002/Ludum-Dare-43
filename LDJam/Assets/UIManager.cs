@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-
+    public int moveToNext = 2;
     public GameObject deathScreen;
     public Text status;
     public Text Tries;

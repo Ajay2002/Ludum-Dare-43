@@ -1689,7 +1689,7 @@ PrefabInstance:
     - target: {fileID: 9188595981671403699, guid: 5959ab0beb13f234c8e3ff47b49fc366,
         type: 3}
       propertyPath: m_Radius
-      value: 12.83
+      value: 16.88
       objectReference: {fileID: 0}
     - target: {fileID: 9188595981671403696, guid: 5959ab0beb13f234c8e3ff47b49fc366,
         type: 3}
@@ -4815,7 +4815,7 @@ PrefabInstance:
     - target: {fileID: 6500257639790955569, guid: 998937f7c5e2c6c49b5feb5d7bd7aec8,
         type: 3}
       propertyPath: m_Radius
-      value: 12.83
+      value: 16.88
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 998937f7c5e2c6c49b5feb5d7bd7aec8, type: 3}
@@ -7487,7 +7487,7 @@ PrefabInstance:
     - target: {fileID: 6500257639790955569, guid: 998937f7c5e2c6c49b5feb5d7bd7aec8,
         type: 3}
       propertyPath: m_Radius
-      value: 12.83
+      value: 16.88
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 998937f7c5e2c6c49b5feb5d7bd7aec8, type: 3}
@@ -10744,6 +10744,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.9999943, y: 0.15000026, z: 1.4999998}
   m_Center: {x: -2.499999, y: 0.00000013075962, z: 0.7499999}
+--- !u!54 &952033805
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 952033803}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!4 &952033808 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 9b89ae6f898db2946adff7209827b86e,
@@ -11324,7 +11340,7 @@ PrefabInstance:
     - target: {fileID: 9188595981671403699, guid: 5959ab0beb13f234c8e3ff47b49fc366,
         type: 3}
       propertyPath: m_Radius
-      value: 12.83
+      value: 21.9
       objectReference: {fileID: 0}
     - target: {fileID: 9188595982263851348, guid: 5959ab0beb13f234c8e3ff47b49fc366,
         type: 3}
@@ -11562,6 +11578,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.9999957, y: 0.15000084, z: 1.5000004}
   m_Center: {x: -2.4999998, y: 0.00000033739747, z: 0.7500002}
+--- !u!54 &1046748632
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1046748630}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!4 &1046748635 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 9b89ae6f898db2946adff7209827b86e,
@@ -12863,7 +12895,7 @@ PrefabInstance:
     - target: {fileID: 9188595981671403699, guid: 5959ab0beb13f234c8e3ff47b49fc366,
         type: 3}
       propertyPath: m_Radius
-      value: 12.83
+      value: 16.88
       objectReference: {fileID: 0}
     - target: {fileID: 9188595981671403696, guid: 5959ab0beb13f234c8e3ff47b49fc366,
         type: 3}
@@ -15451,7 +15483,7 @@ PrefabInstance:
     - target: {fileID: 6500257639790955569, guid: 998937f7c5e2c6c49b5feb5d7bd7aec8,
         type: 3}
       propertyPath: m_Radius
-      value: 12.83
+      value: 16.88
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 998937f7c5e2c6c49b5feb5d7bd7aec8, type: 3}
@@ -18930,7 +18962,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1862001879}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 2.0000193, y: 0.43676582, z: 9.636172}
