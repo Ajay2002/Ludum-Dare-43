@@ -17,6 +17,7 @@ public class CharacterMovement : MonoBehaviour
     public Transform aimSphere;
     public Transform model;
     public Transform gun;
+    public Transform originalGun;
     public bool inputLock = false;
     public CharacterRecorder recorder;
 
@@ -58,7 +59,7 @@ public class CharacterMovement : MonoBehaviour
         }
         else if (index == 3)
         {
-            cost = 60;
+            cost = 5;
         }
 
         if (cost > GameManager.points)
@@ -89,7 +90,7 @@ public class CharacterMovement : MonoBehaviour
             {
                 gun2.gameObject.SetActive(false);
                 gun3.gameObject.SetActive(false);
-                gun1.gameObject.SetActive(true);
+                gun1.transform.GetComponent<MeshRenderer>().enabled = true;
                 gun4.gameObject.SetActive(false);
                 helment.materials[2].color = helmetColor;
 
@@ -105,7 +106,7 @@ public class CharacterMovement : MonoBehaviour
             {
                 gun2.gameObject.SetActive(true);
                 gun3.gameObject.SetActive(false);
-                gun1.gameObject.SetActive(false);
+                gun1.transform.GetComponent<MeshRenderer>().enabled = false;
                 gun4.gameObject.SetActive(false);
                 helment.materials[2].color = helmentColor2;
 
@@ -120,7 +121,7 @@ public class CharacterMovement : MonoBehaviour
             {
                 gun2.gameObject.SetActive(false);
                 gun3.gameObject.SetActive(true);
-                gun1.gameObject.SetActive(false);
+                gun1.transform.GetComponent<MeshRenderer>().enabled = false;
                 gun4.gameObject.SetActive(false);
                 helment.materials[2].color = helmentColor3;
 
@@ -136,7 +137,7 @@ public class CharacterMovement : MonoBehaviour
             {
                 gun2.gameObject.SetActive(false);
                 gun3.gameObject.SetActive(false);
-                gun1.gameObject.SetActive(false);
+                gun1.transform.GetComponent<MeshRenderer>().enabled = false;
                 gun4.gameObject.SetActive(true);
 
                 helment.materials[2].color = helmetColor4;
@@ -168,7 +169,7 @@ public class CharacterMovement : MonoBehaviour
             gun2.gameObject.SetActive(false);
             gun3.gameObject.SetActive(false);
             gun4.gameObject.SetActive(false);
-            gun1.gameObject.SetActive(true);
+            gun1.transform.GetComponent<MeshRenderer>().enabled = true;
             helment.materials[2].color = helmetColor;
 
             shootingManager.type = ShootingManager.GunType.AK47;
@@ -183,7 +184,7 @@ public class CharacterMovement : MonoBehaviour
         {
             gun2.gameObject.SetActive(true);
             gun3.gameObject.SetActive(false);
-            gun1.gameObject.SetActive(false);
+            gun1.transform.GetComponent<MeshRenderer>().enabled = false;
             gun4.gameObject.SetActive(false);
             helment.materials[2].color = helmentColor2;
             Health = 120;
@@ -199,7 +200,7 @@ public class CharacterMovement : MonoBehaviour
             gun2.gameObject.SetActive(false);
             gun3.gameObject.SetActive(true);
             gun4.gameObject.SetActive(false);
-            gun1.gameObject.SetActive(false);
+            gun1.transform.GetComponent<MeshRenderer>().enabled = false;
             helment.materials[2].color = helmentColor3;
 
             shootingManager.type = ShootingManager.GunType.SEMI;
@@ -213,7 +214,7 @@ public class CharacterMovement : MonoBehaviour
         {
             gun2.gameObject.SetActive(false);
             gun3.gameObject.SetActive(false);
-            gun1.gameObject.SetActive(false);
+            gun1.transform.GetComponent<MeshRenderer>().enabled = false;
             gun4.gameObject.SetActive(true);
 
             helment.materials[2].color = helmetColor4;
@@ -402,12 +403,14 @@ public class CharacterMovement : MonoBehaviour
             hP.y = model.position.y;
             model.LookAt(hP);
             gun.LookAt(hit.point);
+            originalGun.LookAt(hit.point);
 
         }
 
     }
 
     private void AimCode(Vector3 inp, float gAngle) {
+        originalGun.localEulerAngles = new Vector3(gAngle, originalGun.localEulerAngles.y, originalGun.localEulerAngles.z);
         gun.localEulerAngles = new Vector3(gAngle,gun.localEulerAngles.y,gun.localEulerAngles.z);
         model.eulerAngles = inp;
         /*Ray ray = cam.ScreenPointToRay(inp);

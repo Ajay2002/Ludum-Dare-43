@@ -15,21 +15,27 @@ public class UIManager : MonoBehaviour
     public Text attemptScore;
     public Text winLoss;
 
+    public Button respawn;
+    public Button nextLevel;
+
     public bool gameOver = false;
 
     private void Start()
     {
         FindObjectOfType<GameManager>().ReCount();
+        GameManager.called = false;
     }
 
     public void DisplaySelectionScreen()
     {
+        respawn.gameObject.SetActive(false);
         GameObject.FindObjectOfType<CharacterMovement>().inputLock = true;
         deathScreen.SetActive(true);
     }
 
     public void HideSelectionScreen()
     {
+        respawn.gameObject.SetActive(true);
         GameObject.FindObjectOfType<CharacterMovement>().inputLock = false;
         deathScreen.SetActive(false);
     }
@@ -50,6 +56,7 @@ public class UIManager : MonoBehaviour
 
         if (gameOver)
         {
+            respawn.gameObject.SetActive(false);
             Tries.enabled = false;
             points.enabled = false;
             deathScreen.SetActive(false);
@@ -68,10 +75,12 @@ public class UIManager : MonoBehaviour
 
         if (won)
         {
+            nextLevel.gameObject.SetActive(true);
             winLoss.text = "You Won!";
         }
         else
         {
+            nextLevel.gameObject.SetActive(false);
             winLoss.text = "You Lost!";
         }
 

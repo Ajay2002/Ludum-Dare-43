@@ -22,7 +22,7 @@ public class BulletMovement : MonoBehaviour
         transform.position += dir * speed;
 
         selfDestruct += Time.deltaTime;
-        if (selfDestruct > 2.0f) {
+        if (selfDestruct > 1.3f) {
             Destroy(this.gameObject);
         }
     }

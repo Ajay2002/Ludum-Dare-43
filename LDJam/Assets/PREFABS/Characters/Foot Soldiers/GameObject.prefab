@@ -1,17 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!4 &6734251763647500344 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400000, guid: 806c6b7f2fcb5c948857668d84f1c33c,
-    type: 3}
-  m_PrefabInstance: {fileID: 6734251763647892152}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &6734251763952887322 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400000, guid: 19ab9c284c0c9874cb005b1e27d2cbd9,
-    type: 3}
-  m_PrefabInstance: {fileID: 6734251763952762010}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3845970384996638226
 GameObject:
   m_ObjectHideFlags: 0
@@ -84,6 +72,18 @@ MeshRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 1950447574552212089}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &6734251763647500344 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400000, guid: 806c6b7f2fcb5c948857668d84f1c33c,
+    type: 3}
+  m_PrefabInstance: {fileID: 6734251763647892152}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6734251763952887322 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400000, guid: 19ab9c284c0c9874cb005b1e27d2cbd9,
+    type: 3}
+  m_PrefabInstance: {fileID: 6734251763952762010}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6734251764501923670 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5072671596726695215, guid: e57664d8c06ff164696224a4545e2e0b,
@@ -118,6 +118,7 @@ MonoBehaviour:
     type: 3}
   gun: {fileID: 6734251765024361195}
   bulletSpawn: {fileID: 8643944158354328278}
+  muzzleFlash: {fileID: 0}
   inputLocked: 0
   type: 0
 --- !u!4 &6734251765024361195 stripped
@@ -333,6 +334,16 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 2.3
       objectReference: {fileID: 0}
+    - target: {fileID: 5072671596726695212, guid: e57664d8c06ff164696224a4545e2e0b,
+        type: 3}
+      propertyPath: aimSphere
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5072671596726695212, guid: e57664d8c06ff164696224a4545e2e0b,
+        type: 3}
+      propertyPath: originalGun
+      value: 
+      objectReference: {fileID: 6734251765024361195}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e57664d8c06ff164696224a4545e2e0b, type: 3}
 --- !u!1001 &4065960151935886619
