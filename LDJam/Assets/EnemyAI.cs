@@ -18,6 +18,7 @@ public class EnemyAI : MonoBehaviour
     public int bulletsShot = 0;
     public float coolTime = 0f;
 
+    bool ded = false;
     public void Injure(float damage) {
         Health -= damage;
         if (Health < 0) {
@@ -26,11 +27,21 @@ public class EnemyAI : MonoBehaviour
             //Any death particles + Destroy (Sink)
             transform.GetChild(0).GetComponent<BoxCollider>().enabled = false;
             Destroy(this.gameObject,3f);
+            ded = true;
+
         }
         else {
 
             //Blood Particles whatever
 
+        }
+    }
+
+    private void Update()
+    {
+        if (ded)
+        {
+            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.12f);
         }
     }
 
@@ -127,5 +138,6 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+   
 
 }

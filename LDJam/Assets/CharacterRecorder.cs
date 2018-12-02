@@ -226,6 +226,22 @@ public class CharacterRecorder : MonoBehaviour
         recordingMode = true;
     }
 
+    public void AddEmpty()
+    {
+        InputStroke s = new InputStroke();
+        s.EVENTCLICK = "Up";
+        s.EVENTHORIZ = "AUp";
+        s.EVENTVERT = "WUp";
+
+        InputStroke s2 = new InputStroke();
+        s.EVENTCLICK = "Up";
+        s.EVENTHORIZ = "DUp";
+        s.EVENTVERT = "SUp";
+
+        strokes.Add(s);
+        strokes.Add(s2);
+    }
+
     public void PlayReset() {
         
 
@@ -257,6 +273,9 @@ public class InputStroke {
     public string EVENTHORIZ;
 
     public string EVENTCLICK;
+
+    public string ENDTRUE;
+
     public Vector3 eulerAngle;
     public float gunAngle;
 

@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
 
     public static void ResetScene() {
         respawnCount += 1;
+        
         CharacterRecorder[] rec = FindObjectsOfType<CharacterRecorder>();
         characterRecords.Clear();
         for (int i = 0; i < rec.Length; i++) {

@@ -50,15 +50,15 @@ public class CharacterMovement : MonoBehaviour
         }
         else if (index == 1)
         {
-            cost = 0;
+            cost = 30;
         }
         else if (index == 2)
         {
-            cost = 0;
+            cost = 100;
         }
         else if (index == 3)
         {
-            cost = 0;
+            cost = 60;
         }
 
         if (cost > GameManager.points)
@@ -67,6 +67,7 @@ public class CharacterMovement : MonoBehaviour
         }
         else
         {
+            GameManager.points -= cost;
             if (index == 0)
             {
                 recorder.unitType = UnitType.Stage1;
@@ -237,18 +238,17 @@ public class CharacterMovement : MonoBehaviour
    
 
     bool dead = false;
+    float timer = 0f;
     public void Injure(float damage) {
          Health -= damage;
         if (Health < 0) {
+            timer = 1f;
             dead = true;
+            inputLock = true;
+            recorder.AddEmpty();
             //Any death particles + Destroy (Sink)
-            print("Death");
-            if (isMainCharacter) {
-                GameManager.ResetScene();
-            }
-            else {
-                transform.GetChild(0).gameObject.SetActive(false);
-            }
+          
+           
            //Return to menu etc...
         }
         else {
@@ -258,6 +258,26 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (timer > 0 && dead == true)
+        {
+            timer -= Time.deltaTime;
+            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.05f);
+        }
+        
+        if (timer <= 0 && dead == true)
+        {
+            if (isMainCharacter)
+            {
+                GameManager.ResetScene();
+            }
+            else
+            {
+                transform.GetChild(0).gameObject.SetActive(false);
+            }
+        }
+    }
 
     [HideInInspector]
     public Vector3 inp = Vector3.zero;
@@ -398,6 +418,8 @@ public class CharacterMovement : MonoBehaviour
         }*/
 
     }
+
+    
 
 
 
