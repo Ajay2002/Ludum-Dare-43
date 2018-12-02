@@ -50,15 +50,15 @@ public class CharacterMovement : MonoBehaviour
         }
         else if (index == 1)
         {
-            cost = 15;
+            cost = 0;
         }
         else if (index == 2)
         {
-            cost = 30;
+            cost = 0;
         }
         else if (index == 3)
         {
-            cost = 20;
+            cost = 0;
         }
 
         if (cost > GameManager.points)
@@ -261,6 +261,7 @@ public class CharacterMovement : MonoBehaviour
 
     [HideInInspector]
     public Vector3 inp = Vector3.zero;
+
     private void FixedUpdate() {
          
          

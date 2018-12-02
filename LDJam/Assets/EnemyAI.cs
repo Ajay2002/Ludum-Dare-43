@@ -24,7 +24,7 @@ public class EnemyAI : MonoBehaviour
 
             GameManager.points += pointsAward;
             //Any death particles + Destroy (Sink)
-
+            transform.GetChild(0).GetComponent<BoxCollider>().enabled = false;
             Destroy(this.gameObject,3f);
         }
         else {
@@ -91,6 +91,7 @@ public class EnemyAI : MonoBehaviour
                                                 this.transform.root.position.y, 
                                                 other.transform.position.z ) ;
                 this.transform.root.LookAt( targetPostition ) ;
+                shooting.gun.LookAt(other.transform.position);
                 
                 timer += Time.deltaTime;
                 if (timer > fireRate && coolTime <= 0) {

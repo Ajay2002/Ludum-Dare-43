@@ -61,7 +61,7 @@ public class CharacterRecorder : MonoBehaviour
        // InputStroke s = null;
         //strokeDict.TryGetValue(timer,out s);
         
-        if (timer==waitFor.AtTime || Mathf.Approximately(timer,waitFor.AtTime)) {
+        if (timer>=waitFor.AtTime || Mathf.Approximately(timer,waitFor.AtTime)) {
             //waitFor = s;
 
             if (waitFor.EVENTVERT == "WDown") {
@@ -255,6 +255,7 @@ public class InputStroke {
 
     public string EVENTVERT;
     public string EVENTHORIZ;
+
     public string EVENTCLICK;
     public Vector3 eulerAngle;
     public float gunAngle;

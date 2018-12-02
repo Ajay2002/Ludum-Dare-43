@@ -68,9 +68,19 @@ public class GameManager : MonoBehaviour
         CharacterRecorder[] rec = FindObjectsOfType<CharacterRecorder>();
         characterRecords.Clear();
         for (int i = 0; i < rec.Length; i++) {
+           
             characterRecords.Add(rec[i]);
         }
-        Application.LoadLevel(0);
+
+        if (respawnCount < 50)
+        {
+            Application.LoadLevel(0);
+        }
+        else
+        {
+            //LOAD GAMEOVER
+
+        }
     }
         
 }
