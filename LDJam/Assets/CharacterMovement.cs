@@ -330,35 +330,159 @@ public class CharacterMovement : MonoBehaviour
     [HideInInspector]
     public Vector3 inp = Vector3.zero;
 
+    private bool W,A,S,D;
+    private bool PW,PA,PS,PD;
+    
+    private void InputGain() {
+        if (!inputLock) {
+            if (Input.GetKey(KeyCode.S)==false && Input.GetKeyDown(KeyCode.W))
+            {
+               W = true;
+               if (PW != W)
+               recorder.KeyDownPressed(KeyCode.W);
+            }
+            
+            if (Input.GetKey(KeyCode.W)==false && Input.GetKeyDown(KeyCode.S))
+            {
+               S = true;
+               if (PS != S)
+                recorder.KeyDownPressed(KeyCode.S);
+            }
+
+            if (Input.GetKeyUp(KeyCode.W))
+            {
+                W = false;
+
+                if (PW != W)
+                recorder.KeyUpPressed(KeyCode.W);
+            }
+            
+            if (Input.GetKeyUp(KeyCode.S))
+            {
+                S = false;
+
+                if (PS != S)
+                recorder.KeyUpPressed(KeyCode.S);
+            }
+
+            if (Input.GetKey(KeyCode.D)==false && Input.GetKeyDown(KeyCode.A))
+            {
+                A = true;
+
+                if (PA != A)
+                 recorder.KeyDownPressed(KeyCode.A);
+            }
+            
+            if (Input.GetKey(KeyCode.A)==false &&Input.GetKeyDown(KeyCode.D))
+            {
+                D = true;
+                if (PD != D)
+                 recorder.KeyDownPressed(KeyCode.D);
+            }
+
+            if (Input.GetKeyUp(KeyCode.A))
+            {
+               A = false;
+
+               if (PA != A)
+               recorder.KeyUpPressed(KeyCode.A);
+            }
+            
+            if (Input.GetKeyUp(KeyCode.D))
+            {
+                D = false;
+
+                if (PD != D)
+                recorder.KeyUpPressed(KeyCode.D);
+            }
+            
+            PW = W; PA = A; PS = S; PD = D;
+            InputStroke2(W,A,S,D);
+
+         }
+
+    }
+
     private void FixedUpdate() {
-         
+         InputGain();
          //Get Key Check
          //Connect this directly to recorder
          //+ Don't allow multiple inputs
          
-        if (!inputLock) {
+       /* if (!inputLock) {
             if (Input.GetKey(KeyCode.W)) {
-                inp.z = Mathf.Lerp(inp.z,1,0.4f);
+                inp.z = Mathf.Lerp(inp.z,1,0.5f);
+                W = true;
             }
-            else if (Input.GetKey(KeyCode.S)) {
-                inp.z = Mathf.Lerp(inp.z,-1,0.4f);
+            else {
+                W = false;
+            }
+            
+            if (Input.GetKey(KeyCode.S)) {
+                inp.z = Mathf.Lerp(inp.z,-1,0.5f);
+                S = true;
+            }
+            else {
+                S = false;
             }
 
             if (Input.GetKey(KeyCode.A)) {
-                inp.x = Mathf.Lerp(inp.x,-1,0.4f);
+                A = true;
+                inp.x = Mathf.Lerp(inp.x,-1,0.5f);
             }
-            else if (Input.GetKey(KeyCode.D)) {
-                inp.x = Mathf.Lerp(inp.x,1,0.4f);
+            else 
+            A = false;
+            
+            if (Input.GetKey(KeyCode.D)) {
+                inp.x = Mathf.Lerp(inp.x,1,0.5f);
+                D = true;
             }
+            else
+            D = false;
+
+            InputChangeCheck();
+
+            PW = W;
+            PA = A;
+            PS = S;
+            PD = D;
 
             inp = Vector3.ClampMagnitude(inp,1);
 
             MovementCode(inp*speed);
             AimCode();
 
-            inp = Vector3.Lerp(inp, Vector3.zero,0.3f);
-        }
+            inp = Vector3.zero;
+            //inp = Vector3.Lerp(inp, Vector3.zero,0.3f);
+        } */
 
+    }
+
+    private void InputChangeCheck() {
+        if (PW != W) {
+            if (W == false)
+                recorder.KeyUpPressed(KeyCode.W);
+            else 
+                recorder.KeyDownPressed(KeyCode.W);
+        }
+        if (PS != S) {
+            if (S == false)
+                recorder.KeyUpPressed(KeyCode.S);
+            else 
+                recorder.KeyDownPressed(KeyCode.S);
+        }
+        if (PD != D) {
+            if (D == false)
+                recorder.KeyUpPressed(KeyCode.D);
+            else 
+                recorder.KeyDownPressed(KeyCode.D);
+        }
+        if (PA != A) {
+            if (A == false)
+                recorder.KeyUpPressed(KeyCode.A);
+            else 
+                recorder.KeyDownPressed(KeyCode.A);
+        }
     }
 
     public ShootingManager shootingManager;
@@ -367,17 +491,19 @@ public class CharacterMovement : MonoBehaviour
     public void InputStroke(bool W, bool A, bool S, bool D, bool C, Vector3 InpPos, float gunAngle) {
         if (!dead) {
             if (W) {
-                inp.z = Mathf.Lerp(inp.z,1,0.4f);
+                inp.z = Mathf.Lerp(inp.z,1,0.5f);
             }
-            else if (S) {
-                inp.z = Mathf.Lerp(inp.z,-1,0.4f);
+            
+            if (S) {
+                inp.z = Mathf.Lerp(inp.z,-1,0.5f);
             }
 
             if (A) {
-                inp.x = Mathf.Lerp(inp.x,-1,0.4f);
+                inp.x = Mathf.Lerp(inp.x,-1,0.5f);
             }
-            else if (D) {
-                inp.x = Mathf.Lerp(inp.x,1,0.4f);
+            
+            if (D) {
+                inp.x = Mathf.Lerp(inp.x,1,0.5f);
             }
 
             if (C && !shot) {
@@ -393,7 +519,36 @@ public class CharacterMovement : MonoBehaviour
             MovementCode(inp*speed);
             AimCode(InpPos,gunAngle);
 
-            inp = Vector3.Lerp(inp, Vector3.zero, 0.3f);
+            inp = Vector3.zero;
+            //inp = Vector3.Lerp(inp, Vector3.zero, 0.3f);
+        }
+    }
+
+     public void InputStroke2(bool W, bool A, bool S, bool D) {
+        if (!dead) {
+            if (W) {
+                inp.z = Mathf.Lerp(inp.z,1,0.5f);
+            }
+            
+            if (S) {
+                inp.z = Mathf.Lerp(inp.z,-1,0.5f);
+            }
+
+            if (A) {
+                inp.x = Mathf.Lerp(inp.x,-1,0.5f);
+            }
+            
+            if (D) {
+                inp.x = Mathf.Lerp(inp.x,1,0.5f);
+            }
+
+            inp = Vector3.ClampMagnitude(inp,1);
+
+            MovementCode(inp*speed);
+            AimCode();
+
+            inp = Vector3.zero;
+            //inp = Vector3.Lerp(inp, Vector3.zero, 0.3f);
         }
     }
 
@@ -430,7 +585,7 @@ public class CharacterMovement : MonoBehaviour
 
        // rBody.velocity = input;
         transform.position += input;
-
+       // transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y, Mathf.RoundToInt(transform.position.z));
             
         Ray ray = new Ray(model.position+retInput*0.005f,-model.up);
         RaycastHit hit;

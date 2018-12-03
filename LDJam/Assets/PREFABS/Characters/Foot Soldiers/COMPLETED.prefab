@@ -1,5 +1,17 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &6930457850657573048 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8490694458103380078, guid: 6748d3e0cd804984a8f00c0a7fac6a28,
+    type: 3}
+  m_PrefabInstance: {fileID: 1583278248004038870}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59283a13217bb2b4798ac55d913501d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!82 &1548529521523020868 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 37599211653948562, guid: 6748d3e0cd804984a8f00c0a7fac6a28,
@@ -12,6 +24,18 @@ AudioSource:
     type: 3}
   m_PrefabInstance: {fileID: 1583278248004038870}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7782502482182453967 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8789319943523306009, guid: 6748d3e0cd804984a8f00c0a7fac6a28,
+    type: 3}
+  m_PrefabInstance: {fileID: 1583278248004038870}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaab8117eced9d54399504bdec49b5a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5227607561014637183 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6734251763568624297, guid: 6748d3e0cd804984a8f00c0a7fac6a28,
@@ -506,8 +530,29 @@ PrefabInstance:
       propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].outWeight
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8172245498418018211, guid: 6748d3e0cd804984a8f00c0a7fac6a28,
+        type: 3}
+      propertyPath: shooting
+      value: 
+      objectReference: {fileID: 7782502482182453967}
+    - target: {fileID: 8789319943523306009, guid: 6748d3e0cd804984a8f00c0a7fac6a28,
+        type: 3}
+      propertyPath: recorder
+      value: 
+      objectReference: {fileID: 6930457850657573048}
+    - target: {fileID: 6734251764501923669, guid: 6748d3e0cd804984a8f00c0a7fac6a28,
+        type: 3}
+      propertyPath: recorder
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8490694458103380078, guid: 6748d3e0cd804984a8f00c0a7fac6a28,
+        type: 3}
+      propertyPath: shooting
+      value: 
+      objectReference: {fileID: 7782502482182453967}
     m_RemovedComponents:
     - {fileID: 2389101185389125114, guid: 6748d3e0cd804984a8f00c0a7fac6a28, type: 3}
+    - {fileID: 8172245498418018211, guid: 6748d3e0cd804984a8f00c0a7fac6a28, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6748d3e0cd804984a8f00c0a7fac6a28, type: 3}
 --- !u!1001 &5227607562107487820
 PrefabInstance:

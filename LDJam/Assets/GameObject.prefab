@@ -21,9 +21,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5072671596726695203}
+  - component: {fileID: 7981610145422887447}
   - component: {fileID: 5072671596726695212}
   - component: {fileID: 5072671596726695213}
-  - component: {fileID: 5072671596726695214}
   - component: {fileID: 1987483766385481451}
   - component: {fileID: 6023385393482780792}
   - component: {fileID: 2255158018667737752}
@@ -49,6 +49,40 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7981610145422887447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5072671596726695215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59283a13217bb2b4798ac55d913501d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitType: 0
+  character: {fileID: 5072671596726695212}
+  shooting: {fileID: 0}
+  strokes: []
+  current:
+    EVENTVERT: 
+    EVENTHORIZ: 
+    EVENTCLICK: 
+    ENDTRUE: 
+    eulerAngle: {x: 0, y: 0, z: 0}
+    gunAngle: 0
+    AtTime: 0
+  waitFor:
+    EVENTVERT: 
+    EVENTHORIZ: 
+    EVENTCLICK: 
+    ENDTRUE: 
+    eulerAngle: {x: 0, y: 0, z: 0}
+    gunAngle: 0
+    AtTime: 0
+  recordingMode: 0
+  playingMode: 0
 --- !u!114 &5072671596726695212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,7 +109,7 @@ MonoBehaviour:
   gun: {fileID: 0}
   originalGun: {fileID: 0}
   inputLock: 0
-  recorder: {fileID: 0}
+  recorder: {fileID: 7981610145422887447}
   sourceDamage: {fileID: 0}
   sourceFootsteps: {fileID: 0}
   helment: {fileID: 0}
@@ -105,41 +139,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &5072671596726695214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5072671596726695215}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59283a13217bb2b4798ac55d913501d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitType: 0
-  character: {fileID: 5072671596726695212}
-  shooting: {fileID: 0}
-  timer: 0
-  strokes: []
-  current:
-    EVENTVERT: 
-    EVENTHORIZ: 
-    EVENTCLICK: 
-    ENDTRUE: 
-    eulerAngle: {x: 0, y: 0, z: 0}
-    gunAngle: 0
-    AtTime: 0
-  waitFor:
-    EVENTVERT: 
-    EVENTHORIZ: 
-    EVENTCLICK: 
-    ENDTRUE: 
-    eulerAngle: {x: 0, y: 0, z: 0}
-    gunAngle: 0
-    AtTime: 0
-  recordingMode: 0
-  playingMode: 0
 --- !u!82 &1987483766385481451
 AudioSource:
   m_ObjectHideFlags: 0

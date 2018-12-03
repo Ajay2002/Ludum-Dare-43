@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviour
                 r.unitType = characterRecords[i].unitType;
                t.GetComponent<CharacterMovement>().isMainCharacter = false;
                r.PlayReset();
+               print("RESPAWN!");
            //}
 
        }
@@ -104,6 +105,7 @@ public class GameManager : MonoBehaviour
             respawnCount += 1;
             GameObject.FindObjectOfType<UIManager>().Tries.text = respawnCount + "/ 70";
             CharacterRecorder[] rec = FindObjectsOfType<CharacterRecorder>();
+//            print(rec.Length);
             characterRecords.Clear();
             for (int i = 0; i < rec.Length; i++)
             {
