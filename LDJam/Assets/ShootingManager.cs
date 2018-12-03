@@ -29,8 +29,13 @@ public class ShootingManager : MonoBehaviour
 
     float speedSetOff = 0.01f;
 
+    float inputDelay = 0.2f;
+    float inpTimer = 0;
+
+
+    //Connect this to character recorder as ewll
     private void Update() {
-        if (!inputLocked) {
+        if (!inputLocked && inpTimer <= 0) {
             if (type == GunType.AK47) {
                 if (Input.GetMouseButtonDown(0)) {
                     Transform t = (Transform)Transform.Instantiate(bulletPrefab,bulletSpawn.position,bulletSpawn.rotation);
@@ -39,7 +44,7 @@ public class ShootingManager : MonoBehaviour
                         source.clip = sfx.Shot2;
                     source.Play();
 
-
+                    inpTimer = inputDelay;
                     muzzleFlash.Play();
                   //  bullets.Play();
                     maxTime = 0.1f;
@@ -63,6 +68,7 @@ public class ShootingManager : MonoBehaviour
                     muzzleFlash.Play();
                     //bullets.Play();
                     maxTime = 0.1f;
+                    inpTimer = inputDelay;
 
                 }
             }
@@ -81,10 +87,18 @@ public class ShootingManager : MonoBehaviour
                     source.Play();
                     muzzleFlash.Play();
                    // bullets.Play();
-                    maxTime = 0.3f;
+                    maxTime = 0.3f;inpTimer = inputDelay;
 
                 }
             }
+        }
+
+        if (inpTimer > 0) {
+            inpTimer -= Time.deltaTime;
+        }
+
+        if (inpTimer <= 0 ) {
+            inpTimer = 0;
         }
 
         if (maxTime > 0)
@@ -108,10 +122,10 @@ public class ShootingManager : MonoBehaviour
             //bullets.Play();
             maxTime = 0.1f;
 
-            if ( source != null && source.clip != sfx.Shot2)
-                source.clip = sfx.Shot2;
-            if (source != null)
-                source.Play();
+           // if ( source != null && source.clip != sfx.Shot2)
+           //     source.clip = sfx.Shot2;
+           // if (source != null)
+           //     source.Play();
 
         }
         if (type == GunType.SHOTGUN)
@@ -130,11 +144,11 @@ public class ShootingManager : MonoBehaviour
             //bullets.Play();
             maxTime = 0.1f;
 
-            if (source != null &&  source.clip != sfx.Shot3)
-                source.clip = sfx.Shot3;
+            //if (source != null &&  source.clip != sfx.Shot3)
+            //    source.clip = sfx.Shot3;
 
-            if (source != null )
-            source.Play();
+            //if (source != null )
+           // source.Play();
 
         }
         if (type == GunType.SEMI)
@@ -149,10 +163,10 @@ public class ShootingManager : MonoBehaviour
            // bullets.Play();
             maxTime = 0.3f;
 
-            if (source != null && source.clip != sfx.Shot2)
-                source.clip = sfx.Shot2;
-            if (source != null)
-                source.Play();
+           // if (source != null && source.clip != sfx.Shot2)
+           //     source.clip = sfx.Shot2;
+          //  if (source != null)
+           //     source.Play();
 
         }
     }

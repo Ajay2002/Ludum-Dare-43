@@ -103,7 +103,7 @@ public class CharacterMovement : MonoBehaviour
                 shootingManager.type = ShootingManager.GunType.AK47;
 
                 Health = 60;
-                speed = 0.006f;
+                speed = 0.01f;
 
             }
             else if (recorder.unitType == UnitType.Stage2)
@@ -119,7 +119,7 @@ public class CharacterMovement : MonoBehaviour
                 shootingManager.type = ShootingManager.GunType.SHOTGUN;
 
                 Health = 170;
-                speed = 0.011f;
+                speed = 0.015f;
             }
             else if (recorder.unitType == UnitType.Stage3)
             {
@@ -134,7 +134,7 @@ public class CharacterMovement : MonoBehaviour
                 shootingManager.gun = gun3;
 
                 Health = 270;
-                speed = 0.016f;
+                speed = 0.02f;
             }
 
             else if (recorder.unitType == UnitType.DoorHandler)
@@ -151,7 +151,7 @@ public class CharacterMovement : MonoBehaviour
                 shootingManager.gun = gun1;
 
                 Health = 170;
-                speed = 0.005f;
+                speed = 0.009f;
 
             }
 
@@ -181,7 +181,7 @@ public class CharacterMovement : MonoBehaviour
             shootingManager.gun = gun1;
 
             Health = 60;
-            speed = 0.006f;
+            speed = 0.01f;
 
         }
         else if (recorder.unitType == UnitType.Stage2)
@@ -192,7 +192,7 @@ public class CharacterMovement : MonoBehaviour
             gun4.gameObject.SetActive(false);
             helment.materials[2].color = helmentColor2;
             Health = 120;
-            speed = 0.011f;
+            speed = 0.015f;
 
             shootingManager.type = ShootingManager.GunType.SHOTGUN;
             gun = gun2;
@@ -212,7 +212,7 @@ public class CharacterMovement : MonoBehaviour
             shootingManager.gun = gun3;
 
             Health = 270;
-            speed = 0.016f;
+            speed = 0.02f;
         }
         else if (recorder.unitType == UnitType.DoorHandler)
         {
@@ -228,7 +228,7 @@ public class CharacterMovement : MonoBehaviour
             shootingManager.gun = gun1;
 
             Health = 170;
-            speed = 0.005f;
+            speed = 0.009f;
 
         }
 
@@ -254,13 +254,15 @@ public class CharacterMovement : MonoBehaviour
             inputLock = true;
             recorder.AddEmpty();
 
-            //if (isMainCharacter)
-            //{
+            if (isMainCharacter)
+            {
             sourceDamage.volume += 2;
             sourceDamage.clip = sfx.PlayerDeath;
-                sourceDamage.pitch = 0.9f;
-                if (!sourceDamage.isPlaying)
-                    sourceDamage.Play();
+            sourceDamage.pitch = 0.9f;
+            if (!sourceDamage.isPlaying)
+                sourceDamage.Play();
+
+            }
 
             Invoke("Invokable", 0.5f);
                 //Blood Particles whatever
@@ -272,14 +274,14 @@ public class CharacterMovement : MonoBehaviour
         }
         else {
 
-            //if (isMainCharacter)
-            //{
+            if (isMainCharacter)
+            {
                 sourceDamage.clip = sfx.PlayerDeath;
                 sourceDamage.pitch = 3;
                 if (!sourceDamage.isPlaying)
                     sourceDamage.Play();
                 //Blood Particles whatever
-            //}
+            }
 
         }
     }
@@ -330,6 +332,9 @@ public class CharacterMovement : MonoBehaviour
 
     private void FixedUpdate() {
          
+         //Get Key Check
+         //Connect this directly to recorder
+         //+ Don't allow multiple inputs
          
         if (!inputLock) {
             if (Input.GetKey(KeyCode.W)) {
