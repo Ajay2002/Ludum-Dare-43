@@ -12,6 +12,8 @@ public class EnemyAI : MonoBehaviour
     public AudioSource source;
     private SFX sfx;
     
+    public float deathAt = 0f;
+
     public int pointsAward = 1;
     
     public float timer = 0f;
@@ -27,9 +29,14 @@ public class EnemyAI : MonoBehaviour
     {
         sfx = GameObject.FindObjectOfType<SFX>();
     }
+
+
+    private bool calledDeath = false;
     public void Injure(float damage) {
         Health -= damage;
-        if (Health < 0) {
+        if (Health < 0 && calledDeath == false) {
+            calledDeath = true;
+            GameManager.DeathHere(this.gameObject.name);
 
             GameManager.points += pointsAward;
             //Any death particles + Destroy (Sink)

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using System.Diagnostics;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     
     public static int respawnCount = 0;
     public UnitType spawnType;
+
+    public List<DeathAt> enemyDeaths = new List<DeathAt>();
 
     public int enemyCount = 0;
 
@@ -38,6 +40,10 @@ public class GameManager : MonoBehaviour
         
         if (respawnCount == 0)
         {
+            GameManager.StartBodyClock();
+            instance.beganMovement = false;
+            enemyDeaths.Clear();
+            containingNames.Clear();
             //BEGIN + INSTRUCTIONS
             print("BEGIN & INSTRUCTIONS SEGMENT");
             
@@ -57,8 +63,12 @@ public class GameManager : MonoBehaviour
 
     public void ReCount()
     {
+        instance.beganMovement = false;
         EnemyAI[] ais = GameObject.FindObjectsOfType<EnemyAI>();
         enemyCount = ais.Length;
+       
+        completed = false;
+        listPos = 0;
     }
 
     public void OneDied()
@@ -66,12 +76,18 @@ public class GameManager : MonoBehaviour
         enemyCount -= 1;
         if (enemyCount <= 0)
         {
-           
+           enemyDeaths.Clear();
             GameObject.FindObjectOfType<UIManager>().GameOver(true, points, respawnCount);
+            
             points = 0;
             respawnCount = 0; spawnType = UnitType.Stage1;
             characterRecords.Clear();
+            containingNames.Clear();
+            enemyDeaths.Clear();
         }
+
+       
+
     }
     
     public void RespawnAll() {
@@ -88,7 +104,7 @@ public class GameManager : MonoBehaviour
                 r.unitType = characterRecords[i].unitType;
                t.GetComponent<CharacterMovement>().isMainCharacter = false;
                r.PlayReset();
-               print("RESPAWN!");
+//               print("RESPAWN!");
            //}
 
        }
@@ -96,6 +112,38 @@ public class GameManager : MonoBehaviour
         EnemyAI[] ais = GameObject.FindObjectsOfType<EnemyAI>();
         enemyCount = ais.Length;
 
+        GameManager.StartBodyClock();
+       
+    }
+
+    public bool beganMovement;
+    public static void StartBodyClock() {
+        instance.beganMovement = true;
+        instance.w = new Stopwatch();
+        instance.w.Reset();
+        instance.w.Start();
+    }
+
+    public static CharacterMovement mainCharacter;
+    public List<string> containingNames = new List<string>();
+    public static void DeathHere (string GOName) {
+        if (!instance.containingNames.Contains(GOName)) {
+            print ("Death : " + instance.w.ElapsedMilliseconds + " of "  + GOName);
+            DeathAt d = new DeathAt();
+            d.time = instance.w.ElapsedMilliseconds;
+            d.GOName = GOName;
+            instance.containingNames.Add(d.GOName);
+            instance.enemyDeaths.Add(d);
+        }
+        else {
+             for (int i = 0; i < instance.enemyDeaths.Count; i++) {
+                 if (instance.enemyDeaths[i].GOName == GOName) {
+                     if (instance.enemyDeaths[i].time > instance.w.ElapsedMilliseconds) {
+                         instance.enemyDeaths[i].time = instance.w.ElapsedMilliseconds;
+                     }
+                 }
+            }
+        }
     }
 
     public static bool called = false;
@@ -116,20 +164,70 @@ public class GameManager : MonoBehaviour
             //70
             if (respawnCount < 70)
             {
-                print("RESPAWN NEXT SEGMENT");
+                instance.beganMovement = false;
+                instance.w.Stop();
+                instance.w.Reset();
+//                print("RESPAWN NEXT SEGMENT");
                 Application.LoadLevel(GameObject.FindObjectOfType<UIManager>().moveToNext);
             }
             else
             {
-                
+                instance.beganMovement = false;
+                instance.enemyDeaths.Clear();
                 GameObject.FindObjectOfType<UIManager>().GameOver(false, points, respawnCount);
                 points = 0;
                 respawnCount = 0;
                 characterRecords.Clear();
+                instance.containingNames.Clear();
                 print("YOU DIED GAME OVER");
             }
             called = true;
         }
     }
+
+    private void FixedUpdate() {
+        if (beganMovement == true) {
+            CheckForDeaths();
+        }
+    }
+
+
+      int listPos = 0;
+      Stopwatch w;
+
+      bool completed = false;
+    private void CheckForDeaths() {
+        if (instance.enemyDeaths.Count > 0) {
+
+            DeathAt d = instance.enemyDeaths[listPos];
+            if ((w.ElapsedMilliseconds>=d.time || Mathf.Approximately(w.ElapsedMilliseconds,d.time)) && !completed) {
+
+                if (GameObject.Find(d.GOName) != null) {
+                    GameObject.Find(d.GOName).GetComponent<EnemyAI>().Injure(1000);
+                }
+                print ("Killed : " + d.GOName + " at " + d.time + " due to un-natural causes...");
+
+                completed = true;
+
+                if (listPos + 1 < instance.enemyDeaths.Count)
+                {
+                    listPos += 1;
+                    completed = false;
+                }
+                else {
+                    completed = true;
+                }
+
+
+            }
+            
+
+        }
+    }
         
+}
+
+public class DeathAt {
+    public float time;
+    public string GOName;
 }

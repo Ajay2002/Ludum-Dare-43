@@ -23,10 +23,15 @@ public class CharacterRecorder : MonoBehaviour
     private Vector3 recordingStartEuler;
     private Vector3 recordingStartEulerGun;
 
+    private GameManager manager;
+
+    
+
     #endregion
     
     private void Awake() {
         ResetRecord();
+        manager = GameObject.FindObjectOfType<GameManager>();
     }
     private void FixedUpdate() {
         /* 
@@ -43,11 +48,7 @@ public class CharacterRecorder : MonoBehaviour
 
     }
 
-    private void LateUpdate() {
-         if (playingMode) {
-            Playing();
-        }
-    }
+
 
     IEnumerator Play() {
         while (playingMode == true) {
@@ -65,7 +66,7 @@ public class CharacterRecorder : MonoBehaviour
 
     bool W,A,S,D,C;
     Vector3 mPos;
-    float gAngle;
+    Vector3 gAngle;
 
 
     public void KeyDownPressed(KeyCode c) {
@@ -90,7 +91,7 @@ public class CharacterRecorder : MonoBehaviour
 
         s.AtTime = AtTime;
         s.eulerAngle = character.model.eulerAngles;
-        s.gunAngle = character.gun.localEulerAngles.x;
+        s.gunAngle = character.gun.eulerAngles;
 
         strokes.Add(s);
     }
@@ -117,8 +118,7 @@ public class CharacterRecorder : MonoBehaviour
 
         s.AtTime = AtTime;
         s.eulerAngle = character.model.eulerAngles;
-        s.gunAngle = character.gun.localEulerAngles.x;
-
+        s.gunAngle = character.gun.eulerAngles;
         strokes.Add(s);
     }
 
@@ -132,7 +132,7 @@ public class CharacterRecorder : MonoBehaviour
 
         s.EVENTCLICK = st;
         s.eulerAngle = character.model.eulerAngles;
-        s.gunAngle = character.gun.localEulerAngles.x;
+        s.gunAngle = character.gun.eulerAngles;
         s.AtTime = AtTime;
 
         strokes.Add(s);
@@ -286,7 +286,7 @@ public class CharacterRecorder : MonoBehaviour
          transform.position = recordingStart;
          character.model.eulerAngles = recordingStartEuler;
          character.gun.eulerAngles = recordingStartEulerGun;
-        
+        character.originalGun.eulerAngles = recordingStartEulerGun;
        timerStopwatch.Start();
         playingMode = true;
        // StartCoroutine("Play");

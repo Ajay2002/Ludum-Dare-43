@@ -34,7 +34,7 @@ public class ShootingManager : MonoBehaviour
 
     float speedSetOff = 0.01f;
 
-    float inputDelay = 0.17f;
+    float inputDelay = 0.07f;
     float inpTimer = 0;
 
     bool pressed = false;
@@ -103,9 +103,9 @@ public class ShootingManager : MonoBehaviour
                     Transform t = (Transform)Transform.Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
                     Transform t1 = (Transform)Transform.Instantiate(bulletPrefab, bulletSpawn.position+bulletSpawn.forward*0.5f, bulletSpawn.rotation);
                     Transform t2 = (Transform)Transform.Instantiate(bulletPrefab, bulletSpawn.position + bulletSpawn.forward, bulletSpawn.rotation);
-                    t.GetComponent<BulletMovement>().SetOff(speedSetOff, bulletSpawn.forward, 13);
-                    t1.GetComponent<BulletMovement>().SetOff(speedSetOff, (bulletSpawn.forward*2 + bulletSpawn.right * 0f).normalized, 13);
-                    t2.GetComponent<BulletMovement>().SetOff(speedSetOff, (bulletSpawn.forward*3 - bulletSpawn.right * 0f).normalized, 13);
+                    t.GetComponent<BulletMovement>().SetOff(speedSetOff, bulletSpawn.forward, 7);
+                    t1.GetComponent<BulletMovement>().SetOff(speedSetOff, (bulletSpawn.forward*2 + bulletSpawn.right * 0f).normalized, 7);
+                    t2.GetComponent<BulletMovement>().SetOff(speedSetOff, (bulletSpawn.forward*3 - bulletSpawn.right * 0f).normalized, 7);
                     if (source.clip != sfx.Shot2)
                         source.clip = sfx.Shot2;
                     source.Play();
@@ -148,7 +148,7 @@ public class ShootingManager : MonoBehaviour
             
             //totalRplayCount += 1;
                 Transform t = (Transform)Transform.Instantiate(bulletPrefab,bulletSpawn.position,bulletSpawn.rotation);
-                t.GetComponent<BulletMovement>().SetOff(speedSetOff, bulletSpawn.forward,8);
+                t.GetComponent<BulletMovement>().SetOff(speedSetOff, bulletSpawn.forward,5);
             muzzleFlash.Play();
             //bullets.Play();
             maxTime = 0.1f;
@@ -162,15 +162,16 @@ public class ShootingManager : MonoBehaviour
         if (type == GunType.SHOTGUN)
         {
           
+           // Transform t = (Transform)Transform.Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
+          //  print(t.name + " "+ t.position);
+          //  print(t.name + " "+ t.position);
+          //  print(t.name + " "+ t.position);
             Transform t = (Transform)Transform.Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
-          //  print(t.name + " "+ t.position);
-          //  print(t.name + " "+ t.position);
-          //  print(t.name + " "+ t.position);
             Transform t1 = (Transform)Transform.Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
             Transform t2 = (Transform)Transform.Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
-            t.GetComponent<BulletMovement>().SetOff(speedSetOff * 2, bulletSpawn.forward, 10);
-            t1.GetComponent<BulletMovement>().SetOff(speedSetOff * 2, (bulletSpawn.forward + bulletSpawn.right).normalized, 14);
-            t2.GetComponent<BulletMovement>().SetOff(speedSetOff * 2, (bulletSpawn.forward - bulletSpawn.right).normalized, 14);
+            t.GetComponent<BulletMovement>().SetOff(speedSetOff*2, bulletSpawn.forward, 10);
+            t1.GetComponent<BulletMovement>().SetOff(speedSetOff*2, (bulletSpawn.forward + bulletSpawn.right*0.4f).normalized, 10);
+            t2.GetComponent<BulletMovement>().SetOff(speedSetOff*2, (bulletSpawn.forward - bulletSpawn.right*0.4f).normalized, 10);
             muzzleFlash.Play();
             //bullets.Play();
             maxTime = 0.1f;
@@ -184,12 +185,12 @@ public class ShootingManager : MonoBehaviour
         }
         if (type == GunType.SEMI)
         {
-            Transform t = (Transform)Transform.Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
-            Transform t1 = (Transform)Transform.Instantiate(bulletPrefab, bulletSpawn.position + bulletSpawn.forward * 0.5f, bulletSpawn.rotation);
-            Transform t2 = (Transform)Transform.Instantiate(bulletPrefab, bulletSpawn.position + bulletSpawn.forward, bulletSpawn.rotation);
-            t.GetComponent<BulletMovement>().SetOff(speedSetOff, bulletSpawn.forward, 13);
-            t1.GetComponent<BulletMovement>().SetOff(speedSetOff, (bulletSpawn.forward * 2 + bulletSpawn.right * 0f).normalized, 17);
-            t2.GetComponent<BulletMovement>().SetOff(speedSetOff, (bulletSpawn.forward * 3 - bulletSpawn.right * 0f).normalized, 17);
+           Transform t = (Transform)Transform.Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
+                    Transform t1 = (Transform)Transform.Instantiate(bulletPrefab, bulletSpawn.position+bulletSpawn.forward*0.5f, bulletSpawn.rotation);
+                    Transform t2 = (Transform)Transform.Instantiate(bulletPrefab, bulletSpawn.position + bulletSpawn.forward, bulletSpawn.rotation);
+                    t.GetComponent<BulletMovement>().SetOff(speedSetOff, bulletSpawn.forward, 7);
+                    t1.GetComponent<BulletMovement>().SetOff(speedSetOff, (bulletSpawn.forward*2 + bulletSpawn.right * 0f).normalized, 7);
+                    t2.GetComponent<BulletMovement>().SetOff(speedSetOff, (bulletSpawn.forward*3 - bulletSpawn.right * 0f).normalized, 7);
             muzzleFlash.Play();
            // bullets.Play();
             maxTime = 0.3f;

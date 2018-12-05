@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterMovement : MonoBehaviour
 {   
     
+    public Image gealth;
     public bool isMainCharacter = true;
     public float Health = 100f;
     public float playerHeight;
@@ -44,6 +46,8 @@ public class CharacterMovement : MonoBehaviour
     [Header("Stage 4")]
     public Transform gun4;
     public Color helmetColor4;
+
+    float maxHealth = 0f;
 
 
     public void SetType (int index)
@@ -235,10 +239,15 @@ public class CharacterMovement : MonoBehaviour
         if (isMainCharacter) {
             GameObject.FindObjectOfType<ConsistentOffset>().offsetTransform = this.transform.GetChild(0);
             recorder.AddEmptyBeg();
+            GameManager.mainCharacter = this;
+            
+              maxHealth = Health;
         }
         if (cam == null) {
             cam = Camera.main;
         }
+
+      
     }
 
    
@@ -301,8 +310,16 @@ public class CharacterMovement : MonoBehaviour
     }
 
     UIManager manUI; 
+    private float v = 1f;
     private void Update()
     {
+
+        if (isMainCharacter) {
+            v = Mathf.Lerp(v,Health/maxHealth,0.06f);
+            gealth.color = Color.Lerp(Color.red,Color.green,v);
+
+        }
+
         if (manUI.gameOver)
             inputLock = true;
 
@@ -335,14 +352,14 @@ public class CharacterMovement : MonoBehaviour
     
     private void InputGain() {
         if (!inputLock) {
-            if (Input.GetKey(KeyCode.S)==false && Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W))
             {
                W = true;
                if (PW != W)
                recorder.KeyDownPressed(KeyCode.W);
             }
             
-            if (Input.GetKey(KeyCode.W)==false && Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.S))
             {
                S = true;
                if (PS != S)
@@ -365,7 +382,7 @@ public class CharacterMovement : MonoBehaviour
                 recorder.KeyUpPressed(KeyCode.S);
             }
 
-            if (Input.GetKey(KeyCode.D)==false && Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.A))
             {
                 A = true;
 
@@ -373,7 +390,7 @@ public class CharacterMovement : MonoBehaviour
                  recorder.KeyDownPressed(KeyCode.A);
             }
             
-            if (Input.GetKey(KeyCode.A)==false &&Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKeyDown(KeyCode.D))
             {
                 D = true;
                 if (PD != D)
@@ -405,6 +422,9 @@ public class CharacterMovement : MonoBehaviour
 
     private void FixedUpdate() {
          InputGain();
+
+        
+
          //Get Key Check
          //Connect this directly to recorder
          //+ Don't allow multiple inputs
@@ -488,7 +508,7 @@ public class CharacterMovement : MonoBehaviour
     public ShootingManager shootingManager;
 
     private bool shot = false;
-    public void InputStroke(bool W, bool A, bool S, bool D, bool C, Vector3 InpPos, float gunAngle) {
+    public void InputStroke(bool W, bool A, bool S, bool D, bool C, Vector3 InpPos, Vector3 gunAngle) {
         if (!dead) {
             if (W) {
                 inp.z = Mathf.Lerp(inp.z,1,0.5f);
@@ -619,9 +639,9 @@ public class CharacterMovement : MonoBehaviour
 
     }
 
-    private void AimCode(Vector3 inp, float gAngle) {
-        originalGun.localEulerAngles = new Vector3(gAngle, originalGun.localEulerAngles.y, originalGun.localEulerAngles.z);
-        gun.localEulerAngles = new Vector3(gAngle,gun.localEulerAngles.y,gun.localEulerAngles.z);
+    private void AimCode(Vector3 inp, Vector3 gAngle) {
+        originalGun. eulerAngles = gAngle;
+        gun.eulerAngles = gAngle;
         model.eulerAngles = inp;
         /*Ray ray = cam.ScreenPointToRay(inp);
         RaycastHit hit;
